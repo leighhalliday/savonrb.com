@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+	<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>savon - {{ page.title }}</title>
+		<link rel="stylesheet" href="stylesheets/application.css">
+	</head>
+
+  <body>
+    <header>
+      <div class="center">
+        <hgroup id="logo">
+          <h1>savon</h1>
+          <h2>heavy metal ruby soap client</h2>
+        </hgroup>
+        <p>
+          Savon aims to be a simple but awesome abstraction of your SOAP service.
+          Make sure to be<br />familiar with <a href="http://www.w3.org/TR/soap/">SOAP</a>,
+          <a href="http://www.w3.org/TR/wsdl">WSDL</a> documents and install
+          <a href="http://www.eviware.com">soapUI</a> before going Heavy Metal!
+        </p>
+      </div>
+    </header>
+
+    <nav>
+      <div class="center">
+        {% include menu.md %}
+      </div>
+    </nav>
+
+    <div id="stage">
+      <div class="center">
+        {{content}}
+      </div>
+		</div>
+
+    <footer>
+      <div class="center">
+        {% include footer.md %}
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+    <script>window.jQuery || document.write("<script src='javascripts/lib/jquery-1.5.1.min.js'>\x3C/script>")</script>
+    <script src="javascripts/lib/jquery.easing.1.3.js"></script>
+    <script src="javascripts/application.js"></script>
+	</body>
+</html>

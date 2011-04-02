@@ -1,0 +1,111 @@
+@import "compass/css3/box-shadow"
+@import "compass/css3/border-radius"
+@import "compass/css3/transition"
+
+body
+  background: #ebebeb url(../images/dark-noise.jpg)
+  color: #555
+
+h2
+  background: url(../images/up.png) 645px 20px no-repeat
+  border-bottom: 1px dashed #ccc
+  color: #444
+  margin: 3em 0 1.25em
+  padding-bottom: 0.5em
+  @include transition("color, background-position", 0.2s, ease-in-out)
+
+  &:hover
+    background-position: 645px -24px
+    color: #43aeca
+    cursor: pointer
+h3
+  color: #555
+  margin: 2.5em 0 1em 0
+
+a
+  &:link, &:visited
+    color: #439EB4
+    text-decoration: none
+  &:hover, &:active
+    color: #439EB4
+    text-decoration: underline
+
+p, ul, ol, pre
+  margin-bottom: 1.5em
+strong
+  font-weight: bold
+ul
+  list-style: disc outside
+  padding-left: 29px
+ol
+  list-style: decimal-leading-zero outside
+  padding-left: 29px
+
+/* CODE */
+
+code
+  background: rgba(125, 125, 125, 0.1)
+  padding: 3px 6px
+  @include border-radius(3px)
+  @include box-shadow(#ccc, 1px, 1px, 3px, 0, inset)
+
+pre code
+  display: block
+  margin: 1.25em 0
+  padding: 0.75em 1.25em
+  overflow: auto
+
+pre code::-webkit-scrollbar
+  height: 8px
+  width: 8px
+
+pre code::-webkit-scrollbar-track-piece
+  margin-bottom: 10px
+  background: #e5e5e5
+  @include border-radius(3px)
+
+pre code::-webkit-scrollbar-thumb:vertical
+  height: 25px
+  background: #ccc
+  @include border-radius(3px)
+
+pre code::-webkit-scrollbar-thumb:horizontal
+  width: 25px
+  background: #ccc
+  @include border-radius(3px)
+
+/* LAYOUT */
+
+#logo
+  background: url(../images/savon.png) top -14px no-repeat
+  text-indent: -9000px
+  margin-bottom: 1em
+  height: 150px
+  width: 550px
+  h2
+    border: 0
+    cursor: auto
+
+header
+  background: #eee url(../images/noise.jpg)
+  padding: 50px 0 30px 0
+  @include border-bottom-radius(8px)
+  @include box-shadow(#ddd, 0, 2px, 3px, 0)
+
+nav
+  padding: 20px 0 10px 0
+
+#stage
+  background: #eee url(../images/noise.jpg)
+  padding: 20px 0 60px 0
+  @include border-radius(8px)
+  @include box-shadow(#ccc, 0, 0, 6px, 0)
+
+footer
+  color: #aaa
+  font-size: 13px
+  padding: 10px 0 30px 0
+
+.center
+  margin: 0 auto
+  width: 700px
