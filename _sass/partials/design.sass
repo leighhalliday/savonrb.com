@@ -7,12 +7,12 @@ body
   color: #555
 
 h2
-  background: url(../images/up.png) 645px 20px no-repeat
+  background: url(../images/up.png) 645px 50px no-repeat
   border-bottom: 1px dashed #ccc
   color: #444
   margin: 3em 0 1.25em
-  padding-bottom: 0.5em
-  @include transition("color, background-position", 0.2s, ease-in-out)
+  padding: 30px 0 0.5em 0
+  @include transition("color, background-position", 0.15s, ease-in-out)
 
   &:hover
     background-position: 645px -24px
@@ -24,10 +24,10 @@ h3
 
 a
   &:link, &:visited
-    color: #439EB4
+    color: #439eb4
     text-decoration: none
   &:hover, &:active
-    color: #439EB4
+    color: #439eb4
     text-decoration: underline
 
 p, ul, ol, pre
@@ -40,12 +40,22 @@ ul
 ol
   list-style: decimal-leading-zero outside
   padding-left: 29px
+blockquote
+  border-left: 2px solid #ccc
+  color: #999
+  padding-left: 1em
 
 /* CODE */
 
+a:hover code, a:active code
+  background: #439eb4
+  color: #f3f3f3
+  text-decoration: none
+  @include box-shadow(#fff, 1px, 1px, 0, 0, inset)
 code
   background: rgba(125, 125, 125, 0.1)
-  padding: 3px 6px
+  padding: 3px 6px 4px 6px
+  white-space: nowrap
   @include border-radius(3px)
   @include box-shadow(#ccc, 1px, 1px, 3px, 0, inset)
 
@@ -54,6 +64,7 @@ pre code
   margin: 1.25em 0
   padding: 0.75em 1.25em
   overflow: auto
+  white-space: pre
 
 pre code::-webkit-scrollbar
   height: 8px
@@ -93,7 +104,23 @@ header
   @include box-shadow(#ddd, 0, 2px, 3px, 0)
 
 nav
-  padding: 20px 0 10px 0
+  padding: 30px 0 5px 0
+
+  p
+    margin-bottom: 1em
+  ol
+    padding-left: 0
+  ol li
+    display: inline-block
+    margin-left: 90px
+    vertical-align: top
+  ol li:first-child
+    margin-left: 28px
+  ol ol li
+    display: list-item
+    margin: 0
+  ol ol li:first-child
+    margin: 0
 
 #stage
   background: #eee url(../images/noise.jpg)
@@ -103,8 +130,7 @@ nav
 
 footer
   color: #aaa
-  font-size: 13px
-  padding: 10px 0 30px 0
+  padding: 15px 0 30px 0
 
 .center
   margin: 0 auto

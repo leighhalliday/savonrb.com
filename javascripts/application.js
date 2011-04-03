@@ -21,24 +21,30 @@ function readCookie(name) {
 
 $(function() {
 
-	$("nav a").bind("click", function(event) {
-		var $anchor = $(this);
+  var url = document.location.toString();
+  var $lists = $("nav ol ol");
+
+	var handler = function(event) {
+    console.log("handler");
+		var anchor = "#" + this.href.split("#")[1];
 
     history.pushState({ path: this.path }, "", this.href);
-		$("html, body").stop().animate({
-			scrollTop: $($anchor.attr("href")).offset().top - 30
-		}, 500, "easeInOutCubic");
+		$("html, body").stop().animate({ scrollTop: $(anchor).offset().top }, 500, "easeInOutCubic");
 
     return false;
-	});
+	}
+
+  if (url.indexOf("examples.html") > -1) {
+    $($lists[1]).find("a").bind("click", handler);
+  } else {
+    $($lists[0]).find("a").bind("click", handler);
+  }
 
 	$("#stage h2").bind("click", function(event) {
 		var $anchor = $(this);
 
-    history.pushState({ path: this.path }, "", "/");
-		$("html, body").stop().animate({
-			scrollTop: 0
-		}, 500, "easeInOutCubic");
+    history.pushState({ path: this.path }, "", document.location.toString().split("#")[0]);
+		$("html, body").stop().animate({ scrollTop: 0 }, 500, "easeInOutCubic");
 
     return false;
 	});
