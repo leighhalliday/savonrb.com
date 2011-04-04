@@ -411,9 +411,7 @@ which (obviously) contains information about the HTTP response.
 response.http  # => #<HTTPI::Response:0x1017b4268 ...
 {% endhighlight %}
 
-
-In case of an emergency
------------------------
+### In case of an emergency
 
 By default, Savon raises both `Savon::SOAP::Fault` and `Savon::HTTP::Error` when encountering these
 kind of errors.
