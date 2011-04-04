@@ -117,7 +117,7 @@ Savon uses [HTTPI](http://rubygems.org/gems/httpi) to execute GET requests for W
 POST requests for SOAP requests. HTTPI is an interface to HTTP libraries like Curl and Net::HTTP.
 
 The library comes with a request object called
-[HTTPI::Request](http://github.com/rubiii/httpi/blob/master/lib/httpi/request.rb) (http)
+[`HTTPI::Request`](http://github.com/rubiii/httpi/blob/master/lib/httpi/request.rb) (http)
 which you can access through the client. I'm only going to document a few interesting details about
 it and point you to the documentation for HTTPI for additional information.
 
@@ -130,7 +130,7 @@ client.http.headers["SOAPAction"] = '"urn:example#service"'
 {% endhighlight %}
 
 If your service relies on cookies to handle sessions, you can grab the cookie from the
-[HTTPI::Response](http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb) and set it
+[`HTTPI::Response`](http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb) and set it
 for subsequent requests.
 
 {% highlight ruby %}
@@ -411,7 +411,7 @@ Alright, sometimes it's XML.
 response.to_xml  # => "<response><success>true</success><name>John</name></response>"
 {% endhighlight %}
 
-The response also contains the [HTTPI::Response](http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb)
+The response also contains the [`HTTPI::Response`](http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb)
 which (obviously) contains information about the HTTP response.
 
 {% highlight ruby %}
