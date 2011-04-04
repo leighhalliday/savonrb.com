@@ -25,7 +25,6 @@ $(function() {
   var $lists = $("nav ol ol");
 
 	var handler = function(event) {
-    console.log("handler");
 		var anchor = "#" + this.href.split("#")[1];
 
     history.pushState({ path: this.path }, "", this.href);
@@ -34,20 +33,27 @@ $(function() {
     return false;
 	}
 
-  if (url.indexOf("examples.html") > -1) {
-    $($lists[1]).find("a").bind("click", handler);
-  } else {
-    $($lists[0]).find("a").bind("click", handler);
+  if (history.pushState !== undefined) {
+    if (url.indexOf("examples.html") > -1) {
+      $($lists[1]).find("a").bind("click", handler);
+    } else {
+      $($lists[0]).find("a").bind("click", handler);
+    }
   }
 
-	$("#stage h2").bind("click", function(event) {
-		var $anchor = $(this);
+  $("#stage h2").bind("click", function(event) {
+    var $anchor = $(this),
+        top = document.location.toString().split("#")[0];
 
-    history.pushState({ path: this.path }, "", document.location.toString().split("#")[0]);
-		$("html, body").stop().animate({ scrollTop: 0 }, 500, "easeInOutCubic");
+    if (history.pushState !== undefined) {
+      history.pushState({ path: this.path }, "", top);
+      $("html, body").stop().animate({ scrollTop: 0 }, 500, "easeInOutCubic");
+    } else {
+      document.location = top;
+    }
 
     return false;
-	});
+  });
 
   if (document.location.toString().indexOf("#") == -1 && readCookie("savon-animate") === null) {
     var $nav      = $("nav"),
