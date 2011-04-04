@@ -3,6 +3,13 @@ title: Getting started
 layout: default
 ---
 
+Give back!
+----------
+
+If Savon saved you time and money, please consider donating to
+[mycharitywater.org/savon](http://www.mycharitywater.org/savon) now.  
+Thank you very much.
+
 Installation & Resources
 ------------------------
 
