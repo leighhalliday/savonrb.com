@@ -1,7 +1,7 @@
-@import "compass/css3/box-shadow"
-@import "compass/css3/border-radius"
-@import "compass/css3/transition"
-@import "compass/css3/transform"
+@import compass/css3/box-shadow
+@import compass/css3/border-radius
+@import compass/css3/transition
+@import compass/css3/transform
 
 body
   background: #ebebeb url(../images/dark-noise.jpg)
@@ -13,7 +13,7 @@ h2
   color: #444
   margin: 3em 0 1.25em
   padding: 30px 0 0.5em 0
-  @include transition("color, background-position", 0.15s, ease-in-out)
+  +transition("color, background-position", 0.15s, ease-in-out)
 
   &:hover
     background-position: 645px -24px
@@ -52,13 +52,13 @@ a:hover code, a:active code
   background: #439eb4
   color: #f3f3f3
   text-decoration: none
-  @include box-shadow(#fff, 1px, 1px, 0, 0, inset)
+  +box-shadow(#fff, 1px, 1px, 0, 0, inset)
 code
   background: rgba(125, 125, 125, 0.1)
   padding: 3px 6px 4px 6px
   white-space: nowrap
-  @include border-radius(3px)
-  @include box-shadow(#ccc, 1px, 1px, 3px, 0, inset)
+  +border-radius(3px)
+  +box-shadow(#ccc, 1px, 1px, 3px, 0, inset)
 
 pre code
   display: block
@@ -74,17 +74,17 @@ pre code::-webkit-scrollbar
 pre code::-webkit-scrollbar-track-piece
   margin-bottom: 10px
   background: #e5e5e5
-  @include border-radius(3px)
+  +border-radius(3px)
 
 pre code::-webkit-scrollbar-thumb:vertical
   height: 25px
   background: #ccc
-  @include border-radius(3px)
+  +border-radius(3px)
 
 pre code::-webkit-scrollbar-thumb:horizontal
   width: 25px
   background: #ccc
-  @include border-radius(3px)
+  +border-radius(3px)
 
 /* LAYOUT */
 
@@ -101,8 +101,8 @@ pre code::-webkit-scrollbar-thumb:horizontal
 header
   background: #eee url(../images/noise.jpg)
   padding: 50px 0 30px 0
-  @include border-bottom-radius(8px)
-  @include box-shadow(#ddd, 0, 2px, 3px, 0)
+  +border-bottom-radius(8px)
+  +box-shadow(#ddd, 0, 2px, 3px, 0)
 
 nav
   padding: 30px 0 5px 0
@@ -126,8 +126,8 @@ nav
 #stage
   background: #eee url(../images/noise.jpg)
   padding: 20px 0 60px 0
-  @include border-radius(8px)
-  @include box-shadow(#ccc, 0, 0, 6px, 0)
+  +border-radius(8px)
+  +box-shadow(#ccc, 0, 0, 6px, 0)
 
 footer
   color: #aaa
@@ -147,7 +147,7 @@ footer
   position: absolute
   text-decoration: none
   width: 250px
-  @include rotate(-45deg)
+  +rotate(-45deg)
   span
     background: #45afcb
     color: white
@@ -157,8 +157,8 @@ footer
     position: absolute
     text-align: center
     width: 250px
-    @include box-shadow(rgba(black, 0.4) 1px 1px 10px)
-    @include transition(opacity, 0.5s)
+    +box-shadow(rgba(black, 0.4) 1px 1px 10px)
+    +transition(opacity, 0.5s)
     &:last-child
       /* this is the backside */
       background: #111
