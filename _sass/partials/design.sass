@@ -1,7 +1,6 @@
 @import compass/css3/box-shadow
 @import compass/css3/border-radius
 @import compass/css3/transition
-@import compass/css3/transform
 
 body
   background: #ebebeb url(../images/dark-noise.jpg)
@@ -90,6 +89,7 @@ pre code::-webkit-scrollbar-thumb:horizontal
 
 #logo
   background: url(../images/savon.png) -14px top no-repeat
+  display: inline-block
   text-indent: -9000px
   margin-bottom: 1em
   height: 150px
@@ -97,6 +97,11 @@ pre code::-webkit-scrollbar-thumb:horizontal
   h2
     border: 0
     cursor: auto
+
+.buttons
+  display: inline-block
+  vertical-align: top
+  margin: 109px 0 0 35px
 
 header
   background: #eee url(../images/noise.jpg)
@@ -136,51 +141,3 @@ footer
 .center
   margin: 0 auto
   width: 700px
-
-
-/* BADGE */
-
-#github
-  left: -65px
-  height: 30px
-  top: 40px
-  position: absolute
-  text-decoration: none
-  width: 250px
-  +rotate(-45deg)
-  span
-    background: #45afcb
-    color: white
-    font-size: 14px
-    left: 0
-    padding: 5px 0
-    position: absolute
-    text-align: center
-    width: 250px
-    +box-shadow(rgba(black, 0.4) 1px 1px 10px)
-    +transition(opacity, 0.5s)
-    &:last-child
-      /* this is the backside */
-      background: #111
-      color: #fff
-      opacity: 0
-
-  &:hover span
-    &:first-child
-      opacity: 0
-    &:last-child
-      opacity: 1
-
-@media all and (-webkit-transform-3d)
-  #github
-    span
-      opacity: 1 !important
-      -webkit-backface-visibility: hidden
-      -webkit-transition: -webkit-transform 0.5s
-      &:last-child
-        -webkit-transform: rotateX(180deg)
-    &:hover span
-      &:first-child
-        -webkit-transform: rotateX(180deg)
-      &:last-child
-        -webkit-transform: rotateX(360deg)
