@@ -3,13 +3,6 @@ title: Getting started
 layout: default
 ---
 
-Give back!
-----------
-
-If Savon saved you time and money, please consider donating to
-[mycharitywater.org/savon](http://www.mycharitywater.org/savon) now.  
-Thank you very much.
-
 Installation & Resources
 ------------------------
 
@@ -494,6 +487,21 @@ Savon.configure do |config|
   config.soap_version = 2  # use SOAP 1.2
 end
 {% endhighlight %}
+
+
+In need of help?
+----------------
+
+In case you're stuck and need someone to help, please post your questions to the
+[Mailing list](https://groups.google.com/forum/#!forum/savon-soap). It's important to share these
+questions and answers publically because it helps others to learn.
+
+If you found a bug, please take a look at the [open issues](https://github.com/rubiii/savon/issues)
+over own Github to see if the problem has already been reported. If it has not been reported already,
+please open an issue and make sure to leave every useful information to debug the problem.
+
+And if you're on Twitter, make sure to follow [@savonrb](http://twitter.com/savonrb) for updates
+on bug fixes, new features and releases.
 
 
 Ecosystem & alternatives
