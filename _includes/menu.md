@@ -4,7 +4,7 @@
    1. [Executing SOAP requests](/#executing_soap_requests)
    1. [Handling the response](/#handling_the_response)
    1. [Global configuration](/#global_configuration)
-   1. [In need of help?](/#in_need_of_help)
+   1. [Additional resources](/#additional_resources)
    1. [Ecosystem & alternatives](/#ecosystem__alternatives)
 
 2. **Examples**

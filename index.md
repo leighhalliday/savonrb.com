@@ -489,8 +489,8 @@ end
 {% endhighlight %}
 
 
-In need of help?
-----------------
+Additional resources
+--------------------
 
 **Are you stuck?**
 
@@ -506,9 +506,17 @@ doesn't support? Take a look at the [open issues](https://github.com/rubiii/savo
 over own Github to see if this has already been reported. If it has not been reported yet,
 please open an issue and make sure to leave useful information to debug the problem.
 
-**Is this guide lacking information?**
+**Anything missing in this guide?**
 
 Please [fork this guide](https://github.com/rubiii/savonrb.com) on Github and help to improve it!
+
+**Do you want to help out?**
+
+* Answer questions on the [Mailing list](https://groups.google.com/forum/#!forum/savon-soap) or
+  [Stack Overflow](http://stackoverflow.com/search?q=ruby+soap)
+* Improve the documentation by writing an article or tutorial
+* You could also help out with [open issues](https://github.com/rubiii/savon/issues)
+* Or [test patches](https://github.com/rubiii/savon/pulls) and provide your feedback
 
 **Are you looking for updates?**
 
