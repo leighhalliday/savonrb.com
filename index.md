@@ -492,15 +492,27 @@ end
 In need of help?
 ----------------
 
-In case you're stuck and need someone to help, please post your questions to the
-[Mailing list](https://groups.google.com/forum/#!forum/savon-soap). It's important to share these
-questions and answers publically because it helps others to learn.
+**Are you stuck?**
 
-If you found a bug, please take a look at the [open issues](https://github.com/rubiii/savon/issues)
-over own Github to see if the problem has already been reported. If it has not been reported already,
-please open an issue and make sure to leave every useful information to debug the problem.
+Then you're probably looking for someone to help. The [Mailing list](https://groups.google.com/forum/#!forum/savon-soap)
+is a good place to search for useful information and ask questions. Please make sure to post your
+questions to the Mailing list instead of sending private messages so others can benefit from these
+information.
 
-And if you're on Twitter, make sure to follow [@savonrb](http://twitter.com/savonrb) for updates
+**Did you ran into a problem?**
+
+So you think something's not working like it's supposed to? Or do you need a feature that Savon
+doesn't support? Take a look at the [open issues](https://github.com/rubiii/savon/issues)
+over own Github to see if this has already been reported. If it has not been reported yet,
+please open an issue and make sure to leave useful information to debug the problem.
+
+**Is this guide lacking information?**
+
+Please [fork this guide](https://github.com/rubiii/savonrb.com) on Github and help to improve it!
+
+**Are you looking for updates?**
+
+If you're on Twitter, make sure to follow [@savonrb](http://twitter.com/savonrb) for updates
 on bug fixes, new features and releases.
 
 
