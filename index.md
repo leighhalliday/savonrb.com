@@ -14,7 +14,7 @@ $ gem install savon
 
 [The code](http://github.com/rubiii/savon) is hosted on Github,
 [RDoc Documentation](http://rubydoc.info/gems/savon/frames) is provided by RubyDoc.info  
-and there's a [Mailing list](https://groups.google.com/forum/#!forum/savon-soap) at Google Groups.
+and there's a [Mailing list](https://groups.google.com/forum/#!forum/savonrb) at Google Groups.
 
 
 Setting up the client
