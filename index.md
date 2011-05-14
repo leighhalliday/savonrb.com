@@ -300,6 +300,15 @@ response = client.request :get_user do
 end
 {% endhighlight %}
 
+If you only need to send a single value or if you like to create a more advanced object to build
+the SOAP body, you can pass any object that's not a Hash and responds to `to_s`.
+
+{% highlight ruby %}
+response = client.request :get_user_by_id do
+  soap.body = 1
+end
+{% endhighlight %}
+
 As you already saw before, Savon is based on a few conventions to make the experience of having to
 work with SOAP and XML as pleasant as possible. The Hash is translated to XML using
 [Gyoku](http://rubygems.org/gems/gyoku) which is based on the same conventions.
