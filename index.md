@@ -494,7 +494,7 @@ Additional resources
 
 **Are you stuck?**
 
-Then you're probably looking for someone to help. The [Mailing list](https://groups.google.com/forum/#!forum/savon-soap)
+Then you're probably looking for someone to help. The [Mailing list](https://groups.google.com/forum/#!forum/savonrb)
 is a good place to search for useful information and ask questions. Please make sure to post your
 questions to the Mailing list instead of sending private messages so others can benefit from these
 information.
@@ -512,7 +512,7 @@ Please [fork this guide](https://github.com/rubiii/savonrb.com) on Github and he
 
 **Do you want to help out?**
 
-* Answer questions on the [Mailing list](https://groups.google.com/forum/#!forum/savon-soap) or
+* Answer questions on the [Mailing list](https://groups.google.com/forum/#!forum/savonrb) or
   [Stack Overflow](http://stackoverflow.com/search?q=ruby+soap)
 * Improve the documentation by writing an article or tutorial
 * You could also help out with [open issues](https://github.com/rubiii/savon/issues)
