@@ -186,7 +186,7 @@ This single argument (the name of the SOAP action to call) works in different wa
 you're using a WSDL document. If you do, Savon will parse the WSDL document for available SOAP actions
 and convert their names to snake_case Symbols for you.
 
-When you're, the argument will be converted to lowerCamelCase.
+Savon converts snake_case_symbols to lowerCamelCase like this:
 
 {% highlight ruby %}
 :get_all_users.to_s.lower_camelcase  # => "getAllUsers"
