@@ -499,7 +499,7 @@ is a good place to search for useful information and ask questions. Please make 
 questions to the Mailing list instead of sending private messages so others can benefit from these
 information.
 
-**Did you ran into a problem?**
+**Did you run into a problem?**
 
 So you think something's not working like it's supposed to? Or do you need a feature that Savon
 doesn't support? Take a look at the [open issues](https://github.com/rubiii/savon/issues)
