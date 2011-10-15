@@ -1,4 +1,4 @@
 savonrb.com
 ===========
 
-Official documentation for [rubygems.org/gems/savon](http://rubygems.org/gems/savon)
+Documentation for [rubygems.org/gems/savon](http://rubygems.org/gems/savon)
