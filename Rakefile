@@ -1,7 +1,6 @@
 require "rake"
 
 namespace :jekyll do
-
   desc "Delete generated _site files"
   task :clean do
     sh "rm -fR _site"
@@ -16,11 +15,9 @@ namespace :jekyll do
   task :compile => [:clean, 'compass:clean', 'compass:compile'] do
     sh "jekyll"
   end
-
 end
 
 namespace :compass do  
-
   desc "Delete temporary compass files"
   task :clean do
     sh "rm -fR css/*"
@@ -35,5 +32,14 @@ namespace :compass do
   task :compile => [:clean] do
     sh "compass compile"
   end
- 
+end
+
+desc "Deploy the website"
+task :deploy do
+  begin
+    require File.expand_path("deploy")
+    Deployer.deploy!
+  rescue LoadError
+    puts "You're not allowed to deploy!"
+  end
 end
