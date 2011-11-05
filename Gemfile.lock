@@ -17,6 +17,7 @@ GEM
     directory_watcher (1.4.0)
     fast-stemmer (1.0.0)
     haml (3.0.25)
+    kramdown (0.13.3)
     liquid (2.2.2)
     maruku (0.6.0)
       syntax (>= 1.0.0)
@@ -28,3 +29,4 @@ PLATFORMS
 DEPENDENCIES
   compass (~> 0.10.6)
   jekyll!
+  kramdown
