@@ -1,3 +1,2 @@
 pygments: true
-markdown: kramdown
 exclude: ["config.rb", "Rakefile", "Gemfile", "Gemfile.lock"]
