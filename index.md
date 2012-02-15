@@ -498,6 +498,126 @@ end
 {% endhighlight %}
 
 
+How to date a model
+-------------------
+
+Since v0.9.8, Savon ships with a very lightweight DSL to be used inside your domain models.
+When included, `Savon::Model` adds a couple of class and instance methods to work with a
+`Savon::Client` instance.
+
+Specify the location of a WSDL document:
+
+{% highlight ruby %}
+class User
+  include Savon::Model
+
+  document "http://service.example.com?wsdl"
+end
+{% endhighlight %}
+
+Or manually set the SOAP endpoint and target namespace to not use a WSDL:
+
+{% highlight ruby %}
+class User
+  include Savon::Model
+
+  endpoint "http://service.example.com"
+  namespace "http://v1.service.example.com"
+end
+{% endhighlight %}
+
+You can specify HTTP headers:
+
+{% highlight ruby %}
+class User
+  include Savon::Model
+
+  headers { "AuthToken" => "BdB)33*Rdr" }
+end
+{% endhighlight %}
+
+As well as HTTP basic and WSSE auth credentials:
+
+{% highlight ruby %}
+class User
+  include Savon::Model
+
+  basic_auth "username", "password"
+  wsse_auth "username", "password", :digest
+end
+{% endhighlight %}
+
+Now for the most useful feature, you have to define the service methods you're working with via the
+`.actions` class method. `Savon::Model` creates both class and instance methods for every action.
+These methods accept a SOAP body Hash and return a `Savon::SOAP::Response`. You can wrap them or just
+call them directly:
+
+{% highlight ruby %}
+class User
+  include Savon::Model
+
+  actions :get_user, :get_all_users
+
+  def self.all
+    get_all_users.to_array
+  end
+
+end
+{% endhighlight %}
+
+You can even overwrite them and delegate to `super` to call the original method:
+
+{% highlight ruby %}
+class User
+  include Savon::Model
+
+  actions :get_user, :get_all_users
+
+  def get_user(id)
+    super(:user_id => id).to_hash[:get_user_response][:return]
+  end
+
+end
+{% endhighlight %}
+
+The `Savon::Client` instance used by your model lives at `.client` inside your class. It gets initialized
+lazily whenever you call any other class or instance method that tries to access the client. In case you
+need to control how the client gets initialized, you can pass a block to `.client` before it's memoized:
+
+{% highlight ruby %}
+class User
+  include Savon::Model
+
+  client do
+    http.headers["Pragma"] = "no-cache"
+  end
+
+end
+{% endhighlight %}
+
+Last but not least, you can opt-out of defining any service methods and directly use the `Savon::Client` instance:
+
+{% highlight ruby %}
+class User
+  include Savon::Model
+
+  document "http://service.example.com?wsdl"
+
+  def find_by_id(id)
+    response = client.request(:find_user) do
+      soap.body = { :id => id }
+    end
+
+    response.body[:find_user_response][:return]
+  end
+
+end
+{% endhighlight %}
+
+In case you previously used the [savon_model](http://rubygems.org/gems/savon_model) gem, please make sure to
+remove it from your project as it may conflict with the new implementation.
+
+
 Additional resources
 --------------------
 
