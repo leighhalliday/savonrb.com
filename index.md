@@ -481,6 +481,10 @@ Savon.configure do |config|
 end
 {% endhighlight %}
 
+Please note that disabling Savon's logger does not disable logging of any dependant libraries.  
+[HTTPI](http://rubygems.org/gems/httpi) for example will continue to log HTTP requests and has
+to be configured separately.
+
 If you don't like to rescue errors, here's how you can tell Savon to not raise them:
 
 {% highlight ruby %}
