@@ -363,11 +363,11 @@ This example will be translated to the following XML.
 {% endhighlight %}
 
 I would not recommend using a Hash for the SOAP body if you need to create complex XML structures,
-because there are better alternatives. One of them is to pass a block to the `Savon::SOAP::XML#xml`
+because there are better alternatives. One of them is to pass a block to the `Savon::SOAP::XML#body`
 method. Savon will then yield a `Builder::XmlMarkup` instance for you to use.
 
 {% highlight ruby %}
-soap.xml do |xml|
+soap.body do |xml|
   xml.firstName("The")
   xml.lastName("Hoff")
 end
@@ -391,6 +391,25 @@ for the SOAP request.
 
 {% highlight ruby %}
 soap.xml = "<custom><soap>request</soap></custom>"
+{% endhighlight %}
+
+The `Savon::SOAP::XML#xml` method also accepts a block and yields a `Builder::XmlMarkup` instance.
+
+{% highlight ruby %}
+namespaces = {
+  "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+  "xmlns:blz" => "http://thomas-bayer.com/blz/"
+}
+
+soap.xml do |xml|
+  xml.soapenv(:Envelope, namespaces) do |xml|
+    xml.soapenv(:Body) do |xml|
+      xml.blz(:getBank) do |xml|
+        xml.blz(:blz, "24050110")
+      end
+    end
+  end
+end
 {% endhighlight %}
 
 Please take a look at the examples for some hands-on exercise.
