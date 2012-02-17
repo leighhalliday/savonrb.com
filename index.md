@@ -536,14 +536,14 @@ How to date a model
 -------------------
 
 Since v0.9.8, Savon ships with a very lightweight DSL to be used inside your domain models.
-When included, `Savon::Model` adds a couple of class and instance methods to work with a
+When used, `Savon::Model` adds a couple of class and instance methods to work with a
 `Savon::Client` instance.
 
 Specify the location of a WSDL document:
 
 {% highlight ruby %}
 class User
-  include Savon::Model
+  extend Savon::Model
 
   document "http://service.example.com?wsdl"
 end
@@ -553,7 +553,7 @@ Or manually set the SOAP endpoint and target namespace to not use a WSDL:
 
 {% highlight ruby %}
 class User
-  include Savon::Model
+  extend Savon::Model
 
   endpoint "http://service.example.com"
   namespace "http://v1.service.example.com"
@@ -564,7 +564,7 @@ You can specify HTTP headers:
 
 {% highlight ruby %}
 class User
-  include Savon::Model
+  extend Savon::Model
 
   headers { "AuthToken" => "BdB)33*Rdr" }
 end
@@ -574,7 +574,7 @@ As well as HTTP basic and WSSE auth credentials:
 
 {% highlight ruby %}
 class User
-  include Savon::Model
+  extend Savon::Model
 
   basic_auth "username", "password"
   wsse_auth "username", "password", :digest
@@ -588,7 +588,7 @@ call them directly:
 
 {% highlight ruby %}
 class User
-  include Savon::Model
+  extend Savon::Model
 
   actions :get_user, :get_all_users
 
@@ -603,7 +603,7 @@ You can even overwrite them and delegate to `super` to call the original method:
 
 {% highlight ruby %}
 class User
-  include Savon::Model
+  extend Savon::Model
 
   actions :get_user, :get_all_users
 
@@ -620,7 +620,7 @@ need to control how the client gets initialized, you can pass a block to `.clien
 
 {% highlight ruby %}
 class User
-  include Savon::Model
+  extend Savon::Model
 
   client do
     http.headers["Pragma"] = "no-cache"
@@ -633,7 +633,7 @@ Last but not least, you can opt-out of defining any service methods and directly
 
 {% highlight ruby %}
 class User
-  include Savon::Model
+  extend Savon::Model
 
   document "http://service.example.com?wsdl"
 
