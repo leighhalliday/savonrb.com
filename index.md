@@ -102,7 +102,18 @@ client = Savon::Client.new do
 end
 {% endhighlight %}
 
-It's up to you.
+### Qualified Locals
+
+Savon reads the value for [elementFormDefault](http://www.w3.org/TR/xmlschema-0/#QualLocals) from a
+given WSDL and defaults to `:unqualified` in case no WSDL document is used. The value specifies whether
+all locally declared elements in a schema must be qualified. As of v0.9.9, the value can be manually
+set to `:unqualified` or `:qualified` when setting up the client.
+
+{% highlight ruby %}
+client = Savon::Client.new do
+  wsdl.element_form_default = :unqualified
+end
+{% endhighlight %}
 
 ### Preparing for HTTP
 
