@@ -501,7 +501,7 @@ response.http_error.present?  # => false
 Global configuration
 --------------------
 
-By default, Savon logs each SOAP request and response to STDOUT using a log level of :debug.
+By default, Savon logs each SOAP request and response to $stdout using a log level of :debug.
 
 {% highlight ruby %}
 Savon.configure do |config|
