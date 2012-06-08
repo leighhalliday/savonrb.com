@@ -513,7 +513,11 @@ end
 
 Please note that disabling Savon's logger does not disable logging of any dependant libraries.  
 [HTTPI](http://rubygems.org/gems/httpi) for example will continue to log HTTP requests and has
-to be configured separately.
+to be configured separately. Here's how you can disable logging for HTTPI:
+
+{% highlight ruby %}
+HTTPI.log = false
+{% endhighlight %}
 
 If you don't like to rescue errors, here's how you can tell Savon to not raise them:
 
