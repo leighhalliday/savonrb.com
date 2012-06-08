@@ -35,7 +35,7 @@ namespace :compass do
 end
 
 desc "Deploy the website"
-task :deploy do
+task :deploy => ["jekyll:compile"] do
   begin
     require File.expand_path("deploy")
     Deployer.deploy!
