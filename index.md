@@ -25,12 +25,10 @@ interface to your SOAP service. The easiest way to get started is to use a local
 WSDL document.
 
 {% highlight ruby %}
-client = Savon::Client.new do
-  wsdl.document = "http://service.example.com?wsdl"
-end
+client = Savon.client("http://service.example.com?wsdl")
 {% endhighlight %}
 
-`Savon::Client.new` accepts a block inside which you can access local variables and even public
+`Savon.client` accepts a block inside which you can access local variables and even public
 methods from your own class, but instance variables won't work. If you want to know why that is,
 I'd recommend reading about
 [instance_eval with delegation](http://www.dcmanges.com/blog/ruby-dsls-instance-eval-with-delegation).
@@ -45,7 +43,7 @@ These objects provide methods for setting up the client. In order to use the wsd
 you can specify two (of the three possible) arguments.
 
 {% highlight ruby %}
-client = Savon::Client.new do |wsdl, http|
+Savon.client do |wsdl, http|
   wsdl.document = "http://service.example.com?wsdl"
   http.proxy = "http://proxy.example.com"
 end
@@ -67,9 +65,7 @@ client and so comes with a performance penalty.
 To use a local WSDL, you specify the path to the file instead of the remote location.
 
 {% highlight ruby %}
-client = Savon::Client.new do
-  wsdl.document = File.expand_path("../wsdl/ebay.xml", __FILE__)
-end
+Savon.client File.expand_path("../wsdl/ebay.xml", __FILE__)
 {% endhighlight %}
 
 With the client set up, you can now see what Savon knows about your service through methods offered
@@ -96,7 +92,7 @@ snake_case Symbols for you.
 To use Savon without a WSDL, you initialize a client by setting the SOAP endpoint and target namespace.
 
 {% highlight ruby %}
-client = Savon::Client.new do
+Savon.client do
   wsdl.endpoint = "http://service.example.com"
   wsdl.namespace = "http://v1.example.com"
 end
@@ -110,7 +106,7 @@ all locally declared elements in a schema must be qualified. As of v0.9.9, the v
 set to `:unqualified` or `:qualified` when setting up the client.
 
 {% highlight ruby %}
-client = Savon::Client.new do
+Savon.client do
   wsdl.element_form_default = :unqualified
 end
 {% endhighlight %}
@@ -255,7 +251,7 @@ following objects.
 
     [soap, wsdl, http, wsse]
 
-Notice, that the list is almost the same as the one for `Savon::Client.new`. Except now, there is an
+Notice, that the list is almost the same as the one for `Savon.client`. Except now, there is an
 additional object called soap. In contrast to the other three objects, the soap object is tied to single
 requests.
 
@@ -550,7 +546,7 @@ error handling or any other setting.
 Here's an example of how to access the per-client config and change the error handling:
 
 {% highlight ruby %}
-client = Savon::Client.new("http://service.example.com?wsdl")
+client = Savon.client("http://service.example.com?wsdl")
 client.config.raise_errors = false
 {% endhighlight %}
 

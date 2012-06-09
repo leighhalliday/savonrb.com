@@ -32,10 +32,7 @@ example uses a little shortcut. Instead of setting the SOAP body inside a block,
 it through the attributes Hash under a special key called `:body`.
 
 {% highlight ruby %}
-client = Savon::Client.new do
-  wsdl.document = "http://www.thomas-bayer.com/axis2/services/BLZService?wsdl"
-end
-
+client = Savon.client("http://www.thomas-bayer.com/axis2/services/BLZService?wsdl")
 response = client.request :blz, :get_bank, :body => { :blz => "70070010" }
 {% endhighlight %}
 
@@ -52,7 +49,7 @@ Also, since the service expects `<blz:blz>?</blz:blz>` to be namespaced,
 `#element_form_default` is set to `:qualified`.
 
 {% highlight ruby %}
-client = Savon::Client.new do
+client = Savon.client do
   wsdl.endpoint = "http://www.thomas-bayer.com/axis2/services/BLZService"
   wsdl.namespace = "http://thomas-bayer.com/blz/"
 end
@@ -199,9 +196,7 @@ Each client instance downloads and parses a WSDL document only once. But it's st
 performance penalty.
 
 {% highlight ruby %}
-client = Savon::Client.new do
-  wsdl.document = File.expand_path("../wsdl/ebay.xml", __FILE__)
-end
+client = Savon.client File.expand_path("../wsdl/ebay.xml", __FILE__)
 {% endhighlight %}
 
 Now for the request, notice that the SOAP action to call is passed as a String `"GeteBayOfficialTime"`
@@ -242,7 +237,7 @@ Instead of overwriting the endpoint read from the WSDL, here `endpoint_with_para
 are specified manually when creating the client.
 
 {% highlight ruby %}
-client = Savon::Client.new do
+client = Savon.client do
   wsdl.endpoint = endpoint_with_params
   wsdl.namespace = "urn:ebay:apis:eBLBaseComponents"
 end
