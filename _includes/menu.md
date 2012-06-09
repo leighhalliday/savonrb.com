@@ -3,7 +3,7 @@
    1. [Setting up the client](/#setting_up_the_client)
    1. [Executing SOAP requests](/#executing_soap_requests)
    1. [Handling the response](/#handling_the_response)
-   1. [Global configuration](/#global_configuration)
+   1. [Configuration](/#configuration)
    1. [How to date a model](/#how_to_date_a_model)
    1. [Additional resources](/#additional_resources)
    1. [Ecosystem & alternatives](/#ecosystem__alternatives)
