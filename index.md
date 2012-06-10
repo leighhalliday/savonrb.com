@@ -635,7 +635,7 @@ class User
   actions :get_user, :get_all_users
 
   def get_user(id)
-    super(:user_id => id).to_hash[:get_user_response][:return]
+    super(user_id: id).body[:get_user_response][:return]
   end
 
 end
@@ -666,7 +666,7 @@ class User
 
   def find_by_id(id)
     response = client.request(:find_user) do
-      soap.body = { :id => id }
+      soap.body = { id: id }
     end
 
     response.body[:find_user_response][:return]
