@@ -112,6 +112,9 @@ pre code::-webkit-scrollbar-thumb:horizontal
   margin-left: 60px
   width: 740px
 
+.tagline
+  width: 500px
+
 nav
   float: left
   width: 160px
@@ -164,3 +167,39 @@ footer
   visibility: hidden
   width: 0
   height: 0
+
+
+/* #Tablet (Portrait) */
+    /* Note: Design for a width of 768px */
+@media only screen and (min-width: 768px) and (max-width: 959px)
+  .container
+    width: 768px
+  #content
+    margin-left: 40px
+    width: 568px
+  .tagline
+    width: auto
+  .buttons
+    margin: -20px 0 0 1px
+
+/*  #Mobile (Portrait) */
+    /* Note: Design for a width of 320px */
+@media only screen and (max-width: 767px)
+  .container
+    width: 300px
+  #content
+    margin-left: 0
+    width: 300px
+  nav, .buttons
+    display: none
+
+/* #Mobile (Landscape) */
+    /* Note: Design for a width of 480px */
+@media only screen and (min-width: 480px) and (max-width: 767px)
+  .container
+    width: 420px
+  #content
+    margin-left: 0
+    width: 420px
+  nav, .buttons
+    display: none

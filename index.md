@@ -83,7 +83,7 @@ client.wsdl.endpoint      # => "http://service.example.com"
 client.wsdl.soap_actions  # => [:create_user, :get_user, :get_all_users]
 
 # the raw document
-client.wsdl.to_xml        # => "<wsdl:definitions name=\"AuthenticationService\" ..."
+client.wsdl.to_xml        # => "<wsdl:definitions ..."
 {% endhighlight %}
 
 Your service probably uses (lower)CamelCase names for actions and params, but Savon maps those to
@@ -171,7 +171,8 @@ client.wsse.expires_at = Time.now + 60
 So if you need to add custom tags, you can add them.
 
 {% highlight ruby %}
-client.wsse["wsse:Security"]["wsse:UsernameToken"] = { "Organization" => "ACME" }
+client.wsse["wsse:Security"]["wsse:UsernameToken"] =
+  { "Organization" => "ACME" }
 {% endhighlight %}
 
 When generating the XML for the request, this Hash will be merged with another Hash containing all the
@@ -234,7 +235,7 @@ You may also need to bind XML attributes to the input tag. In this case, you pas
 attributes following to the name of your SOAP action and the optional namespace.
 
 {% highlight ruby %}
-response = client.request :wsdl, "GetPDF", :id => 1
+response = client.request :wsdl, "GetPDF", id: 1
 {% endhighlight %}
 
 These arguments result in the following input tag.
@@ -351,7 +352,11 @@ Some services actually require the XML elements to be in a specific order. If yo
 order using an Array under a special `:order!` key.
 
 {% highlight ruby %}
-{ :last_name => "Hoff", :first_name => "The", :order! => [:first_name, :last_name] }
+{
+  :last_name  => "Hoff",
+  :first_name => "The",
+  :order!     => [:first_name, :last_name]
+}
 {% endhighlight %}
 
 This will make sure, that the lastName tag follows the firstName.
@@ -360,7 +365,10 @@ Assigning arguments to XML tags using a Hash is even more difficult. It requires
 an `:attributes!` key containing a key matching the XML tag and the Hash of attributes to add.
 
 {% highlight ruby %}
-{ :city => nil, :attributes! => { :city => { "xsi:nil" => true } } }
+{
+  :city        => nil,
+  :attributes! => { :city => { "xsi:nil" => true } }
+}
 {% endhighlight %}
 
 This example will be translated to the following XML.
