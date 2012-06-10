@@ -565,14 +565,14 @@ HTTPI.log = false
 {% endhighlight %}
 
 
-Dating a model
---------------
+Creating Model objects
+----------------------
 
-Since v0.9.8, Savon ships with a very lightweight DSL to be used inside your domain models.
-When extended, `Savon::Model` adds a couple of class and instance methods to work with a
-`Savon::Client` instance.
+Since v0.9.8, Savon ships with a very lightweight DSL that can be used inside or along your
+domain models. You can think of it as a service mapped to a Class interface. All you need to
+do is extend `Savon::Model` and your Class can act as a SOAP client.
 
-Specify the location of a WSDL document:
+You can either specify the location of a WSDL document:
 
 {% highlight ruby %}
 class User
@@ -582,7 +582,7 @@ class User
 end
 {% endhighlight %}
 
-Or manually set the SOAP endpoint and target namespace to not use a WSDL:
+or manually set the SOAP endpoint and target namespace and not use a WSDL:
 
 {% highlight ruby %}
 class User
@@ -593,31 +593,23 @@ class User
 end
 {% endhighlight %}
 
-You can specify HTTP headers:
+You can also set some default HTTP headers and HTTP basic and WSSE auth credentials:
 
 {% highlight ruby %}
 class User
   extend Savon::Model
 
   headers { "AuthToken" => "BdB)33*Rdr" }
-end
-{% endhighlight %}
-
-As well as HTTP basic and WSSE auth credentials:
-
-{% highlight ruby %}
-class User
-  extend Savon::Model
 
   basic_auth "username", "password"
   wsse_auth "username", "password", :digest
 end
 {% endhighlight %}
 
-Now for the most useful feature, you have to define the service methods you're working with via the
-`.actions` class method. `Savon::Model` creates both class and instance methods for every action.
-These methods accept a SOAP body Hash and return a `Savon::SOAP::Response`. You can wrap them or just
-call them directly:
+To really benefit from Savon's conventions and knowledge of your service, you should tell Savon about
+the service methods you would like to expose through your Model. `Savon::Model` creates both class and
+instance methods for every action. These methods accept a SOAP body Hash and return a
+`Savon::SOAP::Response`. You can wrap them or just call them directly:
 
 {% highlight ruby %}
 class User
@@ -647,7 +639,7 @@ class User
 end
 {% endhighlight %}
 
-The `Savon::Client` instance used by your model lives at `.client` inside your class. It gets initialized
+The `Savon::Client` instance used by your Model lives at `.client` inside your class. It gets initialized
 lazily whenever you call any other class or instance method that tries to access the client. In case you
 need to control how the client gets initialized, you can pass a block to `.client` before it's memoized:
 
