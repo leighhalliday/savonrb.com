@@ -303,7 +303,7 @@ a Hash for the SOAP body.
 
 {% highlight ruby %}
 response = client.request :get_user do
-  soap.body = { :id => 1 }
+  soap.body = { id: 1 }
 end
 {% endhighlight %}
 
