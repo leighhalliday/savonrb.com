@@ -55,12 +55,12 @@ client.wsse.credentials "username", "password"
 
 ### (Not) using a WSDL
 
-You can instantiate a client with or without needing a (local or remote) WSDL document. Using a
-WSDL is a little easier because Savon can parse the WSDL for the target namespace, endpoint and
-available SOAP actions. But the (remote) WSDL has to be downloaded and parsed once for every
-client and so comes with a performance penalty.
+You can instantiate a client with or without a (local or remote) WSDL document. Using a WSDL
+is a little easier because Savon can parse the document for the target namespace, endpoint,
+available SOAP actions etc. But the (remote) WSDL has to be downloaded and parsed once for every
+client which comes with a performance penalty.
 
-To use a local WSDL, you specify the path to the file instead of the remote location.
+To use a local WSDL, you specify the path to the file instead of the remote location:
 
 {% highlight ruby %}
 Savon.client File.expand_path("../wsdl/ebay.xml", __FILE__)
@@ -87,7 +87,7 @@ client.wsdl.to_xml        # => "<wsdl:definitions ..."
 Your service probably uses (lower)CamelCase names for actions and params, but Savon maps those to
 snake_case Symbols for you.
 
-To use Savon without a WSDL, you initialize a client by setting the SOAP endpoint and target namespace.
+To use Savon without a WSDL, you initialize a client and set the SOAP endpoint and target namespace.
 
 {% highlight ruby %}
 Savon.client do
@@ -116,20 +116,20 @@ POST requests for SOAP requests. HTTPI is an interface to HTTP libraries like Cu
 
 The library comes with a request object called
 [`HTTPI::Request`](http://github.com/rubiii/httpi/blob/master/lib/httpi/request.rb) (http)
-which you can access through the client. I'm only going to document a few interesting details about
-it and point you to the documentation for HTTPI for additional information.
+which can accessed through the client. I'm only going to document a few details about it and
+then hand over to the official documentation.
 
 SOAPAction is an HTTP header information required by legacy services. If present, the header
 value must have double quotes surrounding the URI-reference (SOAP 1.1. spec, section 6.1.1).
-Here's how you would set/overwrite the SOAPAction header in case you need to.
+Here's how you would set/overwrite the SOAPAction header in case you need to:
 
 {% highlight ruby %}
 client.http.headers["SOAPAction"] = '"urn:example#service"'
 {% endhighlight %}
 
 If your service relies on cookies to handle sessions, you can grab the cookie from the
-[`HTTPI::Response`](http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb) and set it
-for subsequent requests.
+[`HTTPI::Response`](http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb) and set
+it for subsequent requests.
 
 {% highlight ruby %}
 client.http.headers["Cookie"] = response.http.headers["Set-Cookie"]
