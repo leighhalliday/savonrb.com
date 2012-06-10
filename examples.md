@@ -33,10 +33,10 @@ it through the attributes Hash under a special key called `:body`.
 
 {% highlight ruby %}
 client = Savon.client("http://www.thomas-bayer.com/axis2/services/BLZService?wsdl")
-response = client.request :blz, :get_bank, :body => { :blz => "70070010" }
+response = client.request :get_bank, :body => { :blz => "70070010" }
 {% endhighlight %}
 
-Response via `response.to_hash[:get_bank_response][:details]`
+Response via `response.body[:get_bank_response][:details]`
 
 {% highlight ruby %}
 { :plz => "80271", :bic => "DEUTDEMMXXX", :ort => "München", :bezeichnung => "Deutsche Bank" }
@@ -220,7 +220,7 @@ end
 `endpoint_with_params` was set and the SOAP header is passed as a Hash just like the SOAP body.  
 Again, the `"Version"` parameter is a String instead of a Symbol so it's not converted to lowerCamelCase.
 
-Response via `response.to_hash[:gete_bay_official_time_response]`
+Response via `response.body[:gete_bay_official_time_response]`
 
 {% highlight ruby %}
 {
