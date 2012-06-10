@@ -3,8 +3,8 @@ title: Getting started
 layout: default
 ---
 
-Installation & Resources
-------------------------
+Installation
+------------
 
 Savon is available through [Rubygems](http://rubygems.org/gems/savon) and can be installed via:
 
@@ -17,8 +17,8 @@ $ gem install savon
 and there's a [Mailing list](https://groups.google.com/forum/#!forum/savonrb) at Google Groups.
 
 
-Setting up the client
----------------------
+Getting started
+---------------
 
 [`Savon::Client`](http://github.com/rubiii/savon/blob/master/lib/savon/client.rb) is the
 interface to your SOAP service. The easiest way to get started is to use a local or remote
@@ -559,8 +559,8 @@ HTTPI.log = false
 {% endhighlight %}
 
 
-How to date a model
--------------------
+Dating a model
+--------------
 
 Since v0.9.8, Savon ships with a very lightweight DSL to be used inside your domain models.
 When extended, `Savon::Model` adds a couple of class and instance methods to work with a
@@ -714,10 +714,8 @@ If you're on Twitter, make sure to follow [@savonrb](http://twitter.com/savonrb)
 on bug fixes, new features and releases.
 
 
-Ecosystem & alternatives
-------------------------
-
-* [Savon::Spec](http://rubygems.org/gems/savon_spec) helps you test your SOAP requests
+Alternatives
+------------
 
 If you feel like there's no way Savon will fit your needs, you should take a look at  
 [The Ruby Toolbox](http://ruby-toolbox.com/categories/soap.html) to find an alternative.

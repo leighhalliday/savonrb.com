@@ -3,48 +3,69 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{{ page.title }} - Savon: Heavy metal SOAP client</title>
+    <title>Savon: Heavy metal SOAP client</title>
     <link rel="stylesheet" href="/stylesheets/application.css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700">
+    <!--[if lt IE 9]>
+      <script src="/javascripts/html5shiv.js"></script>
+    <![endif]-->
   </head>
 
   <body>
-    <header>
-      <div class="center">
-        <hgroup id="logo">
-          <h1>Savon</h1>
-          <h2>Heavy metal SOAP client</h2>
-        </hgroup>
-        <div class="buttons">
-          <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://bit.ly/savonrb" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-          <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fsavonrb.com&amp;layout=button_count&amp;show_faces=false&amp;width=50&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=20&amp;locale=en_US" scrolling="no" frameborder="0" class="facebook-like-button" allowTransparency="true"></iframe>
-        </div>
-        <p>
-          Savon aims to be a simple but awesome abstraction of your SOAP service.
-          Make sure to be<br />familiar with <a href="http://www.w3.org/TR/soap/">SOAP</a>,
-          <a href="http://www.w3.org/TR/wsdl">WSDL</a> documents and install
-          <a href="http://www.eviware.com">soapUI</a> before going Heavy Metal!
-        </p>
-      </div>
-    </header>
+    <div class="container">
+      <nav>
+        <ol class='nav-list'>
+          <li>
+            <ol>
+              <li><a href='/#installation'>Installation</a></li>
+              <li><a href='/#getting_started'>Getting started</a></li>
+              <li><a href='/#executing_soap_requests'>SOAP requests</a></li>
+              <li><a href='/#handling_the_response'>SOAP response</a></li>
+              <li><a href='/#configuration'>Configuration</a></li>
+              <li><a href='/#dating_a_model'>Dating a model</a></li>
+              <li><a href='/#additional_resources'>Resources</a></li>
+              <li><a href='/#alternatives'>Alternatives</a></li>
+            </ol>
+          </li>
+          <li>
+            <strong>Examples:</strong>
+            <ol>
+              <li><a href='/examples.html#bank_code_lookup'>Bank code lookup</a></li>
+              <li><a href='/examples.html#ebays_official_time'>eBay&#8217;s time</a></li>
+            </ol>
+          </li>
+        </ol>
+        &nbsp;
+      </nav>
 
-    <nav>
-      <div class="center">
-        {% include menu.md %}
-      </div>
-    </nav>
+      <div id="content">
+        <header>
+          <hgroup id="logo">
+            <h1>Savon</h1>
+            <h2>Heavy metal SOAP client</h2>
+          </hgroup>
+          <div class="buttons">
+            <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://bit.ly/savonrb" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+            <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fsavonrb.com&amp;layout=button_count&amp;show_faces=false&amp;width=50&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=20&amp;locale=en_US" scrolling="no" frameborder="0" class="facebook-like-button" allowTransparency="true"></iframe>
+          </div>
+          <p>
+            Savon aims to be a simple but awesome abstraction of your SOAP service.
+            Make sure to be<br />familiar with <a href="http://www.w3.org/TR/soap/">SOAP</a>,
+            <a href="http://www.w3.org/TR/wsdl">WSDL</a> documents and install
+            <a href="http://www.eviware.com">soapUI</a> before going Heavy Metal!
+          </p>
+        </header>
 
-    <div id="stage">
-      <div class="center">
-        {{content}}
+        <article>
+          {{content}}
+        </article>
+
+        <footer>
+          &copy; 2012 Daniel Harrington  
+          Savon may be freely distributed under the MIT license.
+        </footer>
       </div>
     </div>
-
-    <footer>
-      <div class="center">
-        {% include footer.md %}
-      </div>
-    </footer>
 
     <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
     <script>

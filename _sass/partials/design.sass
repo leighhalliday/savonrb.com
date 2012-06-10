@@ -3,14 +3,14 @@
 @import compass/css3/transition
 
 body
-  background: #ebebeb url(../images/dark-noise.jpg)
+  background: #ebebeb url(../images/noise.jpg)
   color: #666
 
 h2
   border-bottom: 1px dashed #ccc
   color: #444
-  margin: 3em 0 1.25em
-  padding: 30px 0 0.5em 0
+  margin: 1.5em 0 1.25em
+  padding: 60px 0 0.5em 0
   +transition("color", 0.15s, ease-in-out)
   &:hover
     color: #43aeca
@@ -83,6 +83,14 @@ pre code::-webkit-scrollbar-thumb:horizontal
 
 /* LAYOUT */
 
+.center
+  width: 960px
+  margin: 0 auto
+
+.container
+  width: 960px
+  margin: 50px auto 25px auto
+
 #logo
   background: url(../images/savon.png) -14px top no-repeat
   display: inline-block
@@ -99,47 +107,59 @@ pre code::-webkit-scrollbar-thumb:horizontal
   vertical-align: top
   margin: 109px 0 0 35px
 
-header
-  background: #eee url(../images/noise.jpg)
-  padding: 50px 0 30px 0
-  +border-bottom-radius(8px)
-  +box-shadow(#ddd, 0, 2px, 3px, 0)
+#content
+  float: left
+  margin-left: 60px
+  width: 740px
 
 nav
-  padding: 30px 0 5px 0
+  float: left
+  width: 160px
 
-  p
-    margin-bottom: 1em
+  .nav-list
+    position: fixed
+    padding-top: 40px
+    width: 160px
   ol
-    padding-left: 0
-  ol li
-    display: inline-block
-    margin-left: 90px
-    vertical-align: top
-  ol li:first-child
-    margin-left: 28px
-  ol ol li
-    display: list-item
-    margin: 0
-  ol ol li:first-child
-    margin: 0
-
-#stage
-  background: #eee url(../images/noise.jpg)
-  padding: 20px 0 60px 0
-  +border-radius(8px)
-  +box-shadow(#ccc, 0, 0, 6px, 0)
+    list-style: none
+    padding: 0
 
 footer
   color: #aaa
-  padding: 15px 0 30px 0
-
-.center
-  margin: 0 auto
-  width: 700px
+  font-style: italic
+  padding: 25px 0 40px 0
 
 .facebook-like-button
   border: none
   overflow: hidden
   width: 50px
   height: 20px
+
+/* CLEARFIX */
+
+.container:after
+  content: "\0020"
+  display: block
+  height: 0
+  clear: both
+  visibility: hidden
+
+.clearfix:before, .clearfix:after
+  content: '\0020'
+  display: block
+  overflow: hidden
+  visibility: hidden
+  width: 0
+  height: 0
+.clearfix:after
+  clear: both
+.clearfix
+  zoom: 1
+
+.clear
+  clear: both
+  display: block
+  overflow: hidden
+  visibility: hidden
+  width: 0
+  height: 0
