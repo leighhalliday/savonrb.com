@@ -717,7 +717,6 @@ on bug fixes, new features and releases.
 Ecosystem & alternatives
 ------------------------
 
-* [Savon::Model](http://rubygems.org/gems/savon_model) creates SOAP service oriented models
 * [Savon::Spec](http://rubygems.org/gems/savon_spec) helps you test your SOAP requests
 
 If you feel like there's no way Savon will fit your needs, you should take a look at  
