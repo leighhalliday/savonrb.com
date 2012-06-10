@@ -500,71 +500,6 @@ response.http_error.present?  # => false
 {% endhighlight %}
 
 
-Configuration
--------------
-
-Savon provides a couple of basic configuration options:
-
-{% highlight ruby %}
-Savon.configure do |config|
-
-  # By default, Savon logs each SOAP request and response to $stdout.
-  # Here's how you can disable logging:
-  config.log = false
-
-  # The default log level used by Savon is :debug.
-  config.log_level = :info
-
-  # In a Rails application you might want Savon to use the Rails logger.
-  config.logger = Rails.logger
-
-  # The XML logged by Savon can be formatted for debugging purposes.
-  # Unfortunately, this feature comes with a performance and is not
-  # recommended for production environments.
-  config.pretty_print_xml = true
-
-  # Savon raises SOAP and HTTP errors, but you can disabling this behavior.
-  config.raise_errors = false
-
-  # Savon expects your service to use SOAP 1.1. You can change that to 1.2
-  # which affects error handling and smaller differences. If you have to
-  # set this, it's probably a bug. Please open a ticket.
-  config.soap_version = 2
-
-  # The XML namespace identifier used for the SOAP envelope defaults to :env
-  # but can be configured to use a different identifier. If you need this
-  # feature, please open a ticket because Savon should figure out the
-  # namespace and identifier itself.
-  config.env_namespace = :soapenv
-
-  # The SOAP header can be configured to default to a Hash that gets
-  # translated to XML by Gyoku. I would love to remove this feature,
-  # so if you rely on it, open a ticket and let me know why you need it.
-  config.soap_header = { auth: { username: "admin", password: "secret" } }
-
-end
-{% endhighlight %}
-
-The example above used the global config. Each `Savon::Client` clones the global config
-on instantiation to allow different client objects to use a different logger, custom
-error handling or any other setting.
-
-Here's an example of how to access the per-client config and change the error handling:
-
-{% highlight ruby %}
-client = Savon.client("http://service.example.com?wsdl")
-client.config.raise_errors = false
-{% endhighlight %}
-
-Please note that disabling Savon's logger does not disable logging of any dependant libraries.  
-[HTTPI](http://rubygems.org/gems/httpi) for example will continue to log HTTP requests and has
-to be configured separately. Here's how you can disable logging for HTTPI:
-
-{% highlight ruby %}
-HTTPI.log = false
-{% endhighlight %}
-
-
 Creating Model objects
 ----------------------
 
@@ -675,6 +610,108 @@ end
 
 In case you previously used the [savon_model](http://rubygems.org/gems/savon_model) gem, please make sure to
 remove it from your project as it may conflict with the new implementation.
+
+
+Configuration
+-------------
+
+Savon provides a couple of basic configuration options:
+
+{% highlight ruby %}
+Savon.configure do |config|
+
+  # By default, Savon logs each SOAP request and response to $stdout.
+  # Here's how you can disable logging:
+  config.log = false
+
+  # The default log level used by Savon is :debug.
+  config.log_level = :info
+
+  # In a Rails application you might want Savon to use the Rails logger.
+  config.logger = Rails.logger
+
+  # The XML logged by Savon can be formatted for debugging purposes.
+  # Unfortunately, this feature comes with a performance and is not
+  # recommended for production environments.
+  config.pretty_print_xml = true
+
+  # Savon raises SOAP and HTTP errors, but you can disabling this behavior.
+  config.raise_errors = false
+
+  # Savon expects your service to use SOAP 1.1. You can change that to 1.2
+  # which affects error handling and smaller differences. If you have to
+  # set this, it's probably a bug. Please open a ticket.
+  config.soap_version = 2
+
+  # The XML namespace identifier used for the SOAP envelope defaults to :env
+  # but can be configured to use a different identifier. If you need this
+  # feature, please open a ticket because Savon should figure out the
+  # namespace and identifier itself.
+  config.env_namespace = :soapenv
+
+  # The SOAP header can be configured to default to a Hash that gets
+  # translated to XML by Gyoku. I would love to remove this feature,
+  # so if you rely on it, open a ticket and let me know why you need it.
+  config.soap_header = { auth: { username: "admin", password: "secret" } }
+
+end
+{% endhighlight %}
+
+The example above used the global config. Each `Savon::Client` clones the global config
+on instantiation to allow different client objects to use a different logger, custom
+error handling or any other setting.
+
+Here's an example of how to access the per-client config and change the error handling:
+
+{% highlight ruby %}
+client = Savon.client("http://service.example.com?wsdl")
+client.config.raise_errors = false
+{% endhighlight %}
+
+Please note that disabling Savon's logger does not disable logging of any dependant libraries.  
+[HTTPI](http://rubygems.org/gems/httpi) for example will continue to log HTTP requests and has
+to be configured separately. Here's how you can disable logging for HTTPI:
+
+{% highlight ruby %}
+HTTPI.log = false
+{% endhighlight %}
+
+
+Code hooks
+----------
+
+Savon has a concept of hooks, which kind of work like filters which you might know from tools like
+Rails or RSpec. Currently there's only one hook to use, but it's a pretty powerful one.
+
+The hook is called `soap_request` and acts like an around filter wrapping the POST request executed
+to call a SOAP service. It yields a callback object that can be called to execute the actual POST request.
+It also yields the current `Savon::SOAP::Request` for you to collect information about the request.
+
+This can be used to measure the time of the actual request:
+
+{% highlight ruby %}
+Savon.configure do |config|
+  config.hooks.define(:my_hook, :soap_request) do |callback, request|
+    Timer.log(:start, Time.now)
+    response = callback.call
+    Timer.log(:end, Time.now)
+    response
+  end
+end
+{% endhighlight %}
+
+or to replace the SOAP call and return a pre-defined response:
+
+{% highlight ruby %}
+Savon.configure do |config|
+  config.hooks.define(:mock_hook, :soap_request) do |callback, request|
+    HTTPI::Response.new(200, {}, "")
+  end
+end
+{% endhighlight %}
+
+This is actually how the (savon_spec)[https://rubygems.org/gems/savon_spec] gem mocks SOAP calls adds
+expectations on the request and returns a fixture response.
 
 
 Additional resources
