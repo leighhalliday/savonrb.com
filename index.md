@@ -691,7 +691,7 @@ This can be used to measure the time of the actual request:
 
 {% highlight ruby %}
 Savon.configure do |config|
-  config.hooks.define(:my_hook, :soap_request) do |callback, request|
+  config.hooks.define(:measure, :soap_request) do |callback, request|
     Timer.log(:start, Time.now)
     response = callback.call
     Timer.log(:end, Time.now)
@@ -704,14 +704,23 @@ or to replace the SOAP call and return a pre-defined response:
 
 {% highlight ruby %}
 Savon.configure do |config|
-  config.hooks.define(:mock_hook, :soap_request) do |callback, request|
+  config.hooks.define(:mock, :soap_request) do |callback, request|
     HTTPI::Response.new(200, {}, "")
   end
 end
 {% endhighlight %}
 
-This is actually how the (savon_spec)[https://rubygems.org/gems/savon_spec] gem mocks SOAP calls adds
-expectations on the request and returns a fixture response.
+This is actually how the [savon_spec](https://rubygems.org/gems/savon_spec) gem is able to mock
+SOAP calls, add expectations on the request and return fixtures and pre-defined responses.
+
+The first argument to `Savon::Hooks::Group#define` is a unique name to identify single hooks.
+This can be used to remove previously defined hooks:
+
+{% highlight ruby %}
+Savon.configure do |config|
+  config.hooks.reject(:measure, :mock)
+end
+{% endhighlight %}
 
 
 Additional resources
