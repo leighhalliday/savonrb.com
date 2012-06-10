@@ -563,7 +563,7 @@ How to date a model
 -------------------
 
 Since v0.9.8, Savon ships with a very lightweight DSL to be used inside your domain models.
-When used, `Savon::Model` adds a couple of class and instance methods to work with a
+When extended, `Savon::Model` adds a couple of class and instance methods to work with a
 `Savon::Client` instance.
 
 Specify the location of a WSDL document:
