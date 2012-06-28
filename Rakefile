@@ -1,4 +1,5 @@
 require "rake"
+require "open-uri"
 
 namespace :jekyll do
   desc "Delete generated _site files"
@@ -34,8 +35,22 @@ namespace :compass do
   end
 end
 
+task :update_changelog do
+  changelog = URI("https://raw.github.com/rubiii/savon/master/CHANGELOG.md").read
+  fail "no changelog" if changelog.nil? || changelog.empty?
+
+  changelog.prepend("---
+title: CHANGELOG
+layout: default
+---\n\n")
+
+  File.open("changelog.md", "w") do |f|
+    f << changelog
+  end
+end
+
 desc "Deploy the website"
-task :deploy => ["jekyll:compile"] do
+task :deploy => ["update_changelog", "jekyll:compile"] do
   begin
     require File.expand_path("deploy")
     Deployer.deploy!
