@@ -36,4 +36,4 @@ So here's my plan to change the current situation:
 
 If you're using Savon, I need you to try the new interface and to give me feedback
 about how it works for you. If it doesn't work for some reason, please open a ticket.
-I'm going to explain the new interface in another article as soon as it's ready.
+I'm going to explain the new interface in another article soon.
