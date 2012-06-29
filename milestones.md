@@ -9,7 +9,7 @@ Milestones
 <time datetime="2012-06-30">June 30, 2012</time>
 
 The recent release of Savon version 1.0 was quite a big milestone for me. Savon was
-born [3 years ago](https://github.com/rubiii/savon/commit/d9d471) on 2. July 2009 and
+born [3 years ago](https://github.com/rubiii/savon/commit/d9d471) on July 2, 2009 and
 I'm more than happy that people are actually using it. The library was born out of my
 need to talk to services in a service oriented architecture and it started with a
 very basic set of features.
