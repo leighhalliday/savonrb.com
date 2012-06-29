@@ -68,7 +68,9 @@
           {{content}}
         </article>
 
-        <footer>
+        <div id="disqus_thread"></div>
+
+        <footer class="smaller">
           &copy; 2012 Daniel Harrington<br />
           Savon may be freely distributed under the MIT license.
         </footer>
@@ -81,6 +83,16 @@
       (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
       g.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js";
       s.parentNode.insertBefore(g,s)}(document,"script"));
+    </script>
+
+    <script>
+      var disqus_shortname = 'savon';
+
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
     </script>
   </body>
 </html>
