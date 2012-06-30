@@ -14,13 +14,13 @@ I'm more than happy that people are actually using it. The library was born out 
 need to talk to services in a service oriented architecture and it started with a
 very basic set of features.
 
-Compared to today, the interface was dead simple. And one of the reasons for today's
-complexity is, that I build Savon to be hackable. Almost everything can be accessed
-and changed. SOAP and all its non-standard implementations are rather difficult to
-get right, so I decided to allow you to tweak everything.
+Compared to today, the initial interface was dead simple. And one of the reasons for
+today's complexity is, that Savon was build to be hackable. Almost everything can be
+accessed and changed. SOAP and all its non-standard implementations are rather difficult
+to get right, so I decided to allow you to tweak everything.
 
-As it turns out though, this decision makes it hard to refactor the code and add new
-features, because Savon exposes way too much internal state.
+As it turns out, this decision makes it hard to refactor the code and add new features,
+because Savon exposes way too much internal state.
 
 So here's my plan to change the current situation:
 
