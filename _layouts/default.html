@@ -18,69 +18,19 @@
 
   <body>
     <div class="container">
-      <nav>
-        <ol class='nav-list'>
-          <li>
-            <strong>Savon</strong>
-            <ol>
-              <li><a href='/#installation'>Installation</a></li>
-              <li><a href='/#getting-started'>Getting started</a></li>
-              <li><a href='/#executing-soap-requests'>SOAP requests</a></li>
-              <li><a href='/#handling-the-response'>SOAP response</a></li>
-              <li><a href='/#creating-model-objects'>Model objects</a></li>
-              <li><a href='/#configuration'>Configuration</a></li>
-              <li><a href='/#code-hooks'>Code hooks</a></li>
-              <li><a href='/#additional-resources'>Resources</a></li>
-              <li><a href='/#alternatives'>Alternatives</a></li>
-            </ol>
-          </li>
-          <li>
-            <strong>Examples</strong>
-            <ol>
-              <li><a href='/examples.html#bank-code-lookup'>Bank code lookup</a></li>
-              <li><a href='/examples.html#ebays-official-time'>eBay&#8217;s time</a></li>
-            </ol>
-          </li>
-          <li class='separate'><a href='/changelog.html'>Changelog</a></li>
-          <li>
-            <strong>Blog</strong>
-            <ol>
-              <li><a href='/milestones.html'>Milestones</a></li>
-            </ol>
-          </li>
-        </ol>
-        &nbsp;
-      </nav>
+      {% include nav.html %}
 
       <div id="content">
-        <header>
-          <hgroup id="title">
-            <h1>Savon</h1>
-            <h2>Heavy metal Soap client</h2>
-          </hgroup>
-          <p class="tagline">
-            Savon helps you talk to SOAP services. It abstracts a lot of insanity, but I would still recommend getting familiar with
-            <a href="http://www.w3.org/TR/soap/">SOAP</a> and <a href="http://www.w3.org/TR/wsdl">WSDL</a> documents.
-          </p>
-        </header>
+        {% include header.html %}
 
         <article>
           {{content}}
         </article>
 
-        <footer>
-          &copy; 2012 Daniel Harrington<br />
-          Savon may be freely distributed under the MIT license.
-        </footer>
+        {% include footer.html %}
       </div>
     </div>
 
-    <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
-    <script>
-      var _gaq=[["_setAccount","UA-595428-4"],["_trackPageview"],["_trackPageLoadTime"]];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
-      g.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js";
-      s.parentNode.insertBefore(g,s)}(document,"script"));
-    </script>
+    {% include analytics.html %}
   </body>
 </html>
