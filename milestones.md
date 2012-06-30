@@ -24,7 +24,7 @@ features, because Savon exposes way too much internal state.
 
 So here's my plan to change the current situation:
 
-1. Version 1.0 basically freezes the current inferface. Savon now follows
+1. Version 1.0 basically freezes the current interface. Savon now follows
    [Semantic Versioning](http://semver.org/) for future releases.
 
 2. Version 1.1 limits Savon's core dependencies to bug fix updates. Every major
