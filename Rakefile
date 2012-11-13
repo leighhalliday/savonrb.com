@@ -18,7 +18,7 @@ namespace :jekyll do
   end
 end
 
-namespace :compass do  
+namespace :compass do
   desc "Delete temporary compass files"
   task :clean do
     sh "rm -fR css/*"
@@ -36,7 +36,7 @@ namespace :compass do
 end
 
 task :update_changelog do
-  changelog = URI("https://raw.github.com/rubiii/savon/master/CHANGELOG.md").read
+  changelog = URI("https://raw.github.com/savonrb/savon/master/CHANGELOG.md").read
   fail "no changelog" if changelog.nil? || changelog.empty?
 
   changelog.prepend("---
