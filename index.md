@@ -12,13 +12,13 @@ Savon is available through [Rubygems](http://rubygems.org/gems/savon) and can be
 $ gem install savon
 {% endhighlight %}
 
-The project is [hosted on GitHub](http://github.com/rubiii/savon), it has [source code documentation](http://rubydoc.info/gems/savon/frames), it uses [continuous integration](http://travis-ci.org/#!/rubiii/savon), support can be found in the [mailing list](https://groups.google.com/forum/#!forum/savonrb) and oh my god, there's even a [Railscast](http://railscasts.com/episodes/290-soap-with-savon).
+The project is [hosted on GitHub](http://github.com/savonrb/savon), it has [source code documentation](http://rubydoc.info/gems/savon/frames), it uses [continuous integration](http://travis-ci.org/#!/savonrb/savon), support can be found in the [mailing list](https://groups.google.com/forum/#!forum/savonrb) and oh my god, there's even a [Railscast](http://railscasts.com/episodes/290-soap-with-savon).
 
 
 Getting started
 ---------------
 
-[`Savon::Client`](http://github.com/rubiii/savon/blob/master/lib/savon/client.rb) is the
+[`Savon::Client`](http://github.com/savonrb/savon/blob/master/lib/savon/client.rb) is the
 interface to your SOAP service. The easiest way to get started is to use a local or remote
 WSDL document.
 
@@ -67,7 +67,7 @@ Savon.client File.expand_path("../wsdl/ebay.xml", __FILE__)
 {% endhighlight %}
 
 With the client set up, you can now see what Savon knows about your service through methods offered
-by [`Savon::WSDL::Document`](http://github.com/rubiii/savon/blob/master/lib/savon/wsdl/document.rb) (wsdl).
+by [`Savon::WSDL::Document`](http://github.com/savonrb/savon/blob/master/lib/savon/wsdl/document.rb) (wsdl).
 It's not too much, but it can save you some code.
 
 {% highlight ruby %}
@@ -115,7 +115,7 @@ Savon uses [HTTPI](http://rubygems.org/gems/httpi) to execute GET requests for W
 POST requests for SOAP requests. HTTPI is an interface to HTTP libraries like Curl and Net::HTTP.
 
 The library comes with a request object called
-[`HTTPI::Request`](http://github.com/rubiii/httpi/blob/master/lib/httpi/request.rb) (http)
+[`HTTPI::Request`](http://github.com/savonrb/httpi/blob/master/lib/httpi/request.rb) (http)
 which can accessed through the client. I'm only going to document a few details about it and
 then hand over to the official documentation.
 
@@ -128,7 +128,7 @@ client.http.headers["SOAPAction"] = '"urn:example#service"'
 {% endhighlight %}
 
 If your service relies on cookies to handle sessions, you can grab the cookie from the
-[`HTTPI::Response`](http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb) and set
+[`HTTPI::Response`](http://github.com/savonrb/httpi/blob/master/lib/httpi/response.rb) and set
 it for subsequent requests.
 
 {% highlight ruby %}
@@ -137,7 +137,7 @@ client.http.headers["Cookie"] = response.http.headers["Set-Cookie"]
 
 ### WSSE authentication
 
-Savon comes with [`Savon::WSSE`](http://github.com/rubiii/savon/blob/master/lib/savon/wsse.rb) (wsse)
+Savon comes with [`Savon::WSSE`](http://github.com/savonrb/savon/blob/master/lib/savon/wsse.rb) (wsse)
 for you to use wsse:UsernameToken authentication.
 
 {% highlight ruby %}
@@ -254,7 +254,7 @@ Notice, that the list is almost the same as the one for `Savon.client`. Except n
 additional object called soap. In contrast to the other three objects, the soap object is tied to single
 requests.
 
-[`Savon::SOAP::XML`](http://github.com/rubiii/savon/blob/master/lib/savon/soap/xml.rb) (soap) can only be
+[`Savon::SOAP::XML`](http://github.com/savonrb/savon/blob/master/lib/savon/soap/xml.rb) (soap) can only be
 accessed inside this block and Savon creates a new soap object for every request.
 
 Savon by default expects your services to be based on SOAP 1.1. For SOAP 1.2 services, you can set the
@@ -432,7 +432,7 @@ Handling the response
 ---------------------
 
 `Savon::Client#request` returns a
-[`Savon::SOAP::Response`](http://github.com/rubiii/savon/blob/master/lib/savon/soap/response.rb).
+[`Savon::SOAP::Response`](http://github.com/savonrb/savon/blob/master/lib/savon/soap/response.rb).
 Everything's really just a Hash.
 
 {% highlight ruby %}
@@ -445,7 +445,7 @@ Alright, sometimes it's XML.
 response.to_xml  # => "<response><success>true</success><name>John</name></response>"
 {% endhighlight %}
 
-The response also contains the [`HTTPI::Response`](http://github.com/rubiii/httpi/blob/master/lib/httpi/response.rb)
+The response also contains the [`HTTPI::Response`](http://github.com/savonrb/httpi/blob/master/lib/httpi/response.rb)
 which (obviously) contains information about the HTTP response.
 
 {% highlight ruby %}
@@ -750,21 +750,21 @@ information.
 **Did you run into a problem?**
 
 So you think something's not working like it's supposed to? Or do you need a feature that Savon
-doesn't support? Take a look at the [open issues](https://github.com/rubiii/savon/issues)
+doesn't support? Take a look at the [open issues](https://github.com/savonrb/savon/issues)
 over own Github to see if this has already been reported. If it has not been reported yet,
 please open an issue and make sure to leave useful information to debug the problem.
 
 **Anything missing in this guide?**
 
-Please [fork this guide](https://github.com/rubiii/savonrb.com) on Github and help to improve it!
+Please [fork this guide](https://github.com/savonrb/savonrb.com) on Github and help to improve it!
 
 **Do you want to help out?**
 
 * Answer questions on the [Mailing list](https://groups.google.com/forum/#!forum/savonrb) or
   [Stack Overflow](http://stackoverflow.com/search?q=ruby+soap)
 * Improve the documentation by writing an article or tutorial
-* You could also help out with [open issues](https://github.com/rubiii/savon/issues)
-* Or [test patches](https://github.com/rubiii/savon/pulls) and provide your feedback
+* You could also help out with [open issues](https://github.com/savonrb/savon/issues)
+* Or [test patches](https://github.com/savonrb/savon/pulls) and provide your feedback
 
 **Are you looking for updates?**
 
