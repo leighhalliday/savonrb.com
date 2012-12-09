@@ -15,7 +15,7 @@ The new interface is not feature-complete yet, but I would really appreciate you
 To give it a try, add the following line to your Gemfile:
 
 ``` ruby
-gem "savon", :github => "savonrb/savon", :branch => "version2"
+gem "savon", github: "savonrb/savon", branch: "version2"
 ```
 
 
