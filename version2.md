@@ -6,7 +6,7 @@ layout: default
 Getting started
 ---------------
 
-As explained in [this blog post](http://localhost:4000/2012/06/30/milestones.html), Savon's public interface
+As explained in [this blog post](http://savonrb.com/2012/06/30/milestones.html), Savon's public interface
 needs to change in order to support refactorings and new features. I pushed the [version2 branch](https://github.com/savonrb/savon/tree/version2)
 up at Github a few days ago, so you can follow the progress and there's also [issue 332](https://github.com/savonrb/savon/issues/332) for you to
 discuss the changes.
