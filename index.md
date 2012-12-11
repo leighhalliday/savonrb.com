@@ -12,7 +12,7 @@ Savon is available through [Rubygems](http://rubygems.org/gems/savon) and can be
 $ gem install savon
 {% endhighlight %}
 
-The project is [hosted on GitHub](http://github.com/savonrb/savon), it has [source code documentation](http://rubydoc.info/gems/savon/frames), it uses [continuous integration](http://travis-ci.org/#!/savonrb/savon), support can be found in the [mailing list](https://groups.google.com/forum/#!forum/savonrb) and oh my god, there's even a [Railscast](http://railscasts.com/episodes/290-soap-with-savon).
+The project is [hosted on GitHub](http://github.com/savonrb/savon), it has [source code documentation](http://rubydoc.info/gems/savon/frames), it uses [continuous integration](http://travis-ci.org/#!/savonrb/savon), support can be found in the [mailing list](https://groups.google.com/forum/#!forum/savonrb) and thanks to Ryan Bates, there's even a [Railscast](http://railscasts.com/episodes/290-soap-with-savon).
 
 
 Getting started
