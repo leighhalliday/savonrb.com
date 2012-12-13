@@ -7,9 +7,10 @@ Getting started
 ---------------
 
 As explained in [this blog post](http://savonrb.com/2012/06/30/milestones.html), Savon's public interface
-needs to change in order to support refactorings and new features. I pushed the [version2 branch](https://github.com/savonrb/savon/tree/version2)
-up at Github a few days ago, so you can follow the progress and there's also [issue 332](https://github.com/savonrb/savon/issues/332) for you to
-discuss the changes.
+needs to change in order to support refactorings and new features. I dropped the initial plan to add the
+new interface to nay 1.x release. Instead, I pushed the [version2 branch](https://github.com/savonrb/savon/tree/version2)
+up at Github, so you can follow the progress and there's also [issue 332](https://github.com/savonrb/savon/issues/332)
+for you to discuss the changes.
 
 The new interface is not feature-complete yet, but I would really appreciate your feedback!  
 To give it a try, add the following line to your Gemfile:
@@ -26,7 +27,7 @@ The new client works a little bit different than the current one. Here's how you
 client and point it to a remote WSDL document.
 
 ``` ruby
-client = Savon.new_client(wsdl: "http://example.com?wsdl")
+client = Savon.client(wsdl: "http://example.com?wsdl")
 ```
 
 You can inspect the service and ask Savon which operations it contains:
@@ -48,101 +49,114 @@ Global options are passed to the client's initializer and belong to a particular
 Savon accepts a local or remote WSDL document.
 
 ``` ruby
-Savon.new_client(wsdl: "http://example.com?wsdl")
-Savon.new_client(wsdl: "/Users/me/project/service.wsdl")
+Savon.client(wsdl: "http://example.com?wsdl")
+Savon.client(wsdl: "/Users/me/project/service.wsdl")
 ```
 
 Setting the SOAP endpoint and target namespace allows requests without a WSDL document.
 
 ``` ruby
-Savon.new_client(endpoint: "http://example.com", namespace: "http://v1.example.com")
+Savon.client(endpoint: "http://example.com", namespace: "http://v1.example.com")
 ```
 
 The default namespace identifier is `:wsdl`.
 
 ``` ruby
-Savon.new_client(namespace_identifier: :ins0)
+Savon.client(namespace_identifier: :ins0)
 ```
 
 You can use a proxy server.
 
 ``` ruby
-Savon.new_client(proxy: "http://example.org")
+Savon.client(proxy: "http://example.org")
 ```
 
 Set HTTP headers.
 
 ``` ruby
-Savon.new_client(headers: { "Authentication" => "secret" })
+Savon.client(headers: { "Authentication" => "secret" })
 ```
 
 Specify both the open and read timeout (in seconds).
 
 ``` ruby
-Savon.new_client(open_timeout: 5, read_timeout: 5)
+Savon.client(open_timeout: 5, read_timeout: 5)
 ```
 
 Change the default encoding from "UTF-8" to whatever you prefer.  
 Affects both the CONTENT-TYPE header and the XML instruction tag.
 
 ``` ruby
-Savon.new_client(encoding: "UTF-16")
+Savon.client(encoding: "UTF-16")
 ```
 
 You can set a global SOAP header.
 
 ``` ruby
-Savon.new_client(soap_header: { "Authentication" => "top-secret" })
+Savon.client(soap_header: { "Authentication" => "top-secret" })
 ```
 
 As long as your WSDL does not contain any import, Savon should know whether or not to qualify elements.
 If you need to use this option, please open an issue and make sure to add your WSDL for debugging.
 
 ``` ruby
-Savon.new_client(element_form_default: :qualified)  # or :unqualified
+Savon.client(element_form_default: :qualified)  # or :unqualified
 ```
 
 Savon defaults to use `:env` as the namespace identifier for the SOAP envelope. If that doesn't work  
 for you, I would like to know why. So please open an issue and make sure to add your WSDL for debugging
 
 ``` ruby
-Savon.new_client(env_namespace: :soapenv)
+Savon.client(env_namespace: :soapenv)
 ```
 
 Changes the SOAP version.
 
 ``` ruby
-Savon.new_client(soap_version: 2)  # or 1
+Savon.client(soap_version: 2)  # or 1
 ```
 
 By default, Savon does not raise SOAP fault and HTTP errors, but you can change that.
 
 ``` ruby
-Savon.new_client(raise_errors: true)
+Savon.client(raise_errors: true)
+```
+
+Savon instructs Nori to strip any namespace identifiers from the response.
+
+``` ruby
+Savon.client(strip_namespaces: false)
+```
+
+It also instructs Nori to convert any XML tag from the response to a snakecase String.
+You can specify a custom `Proc` or any object that responds to `#call`.
+
+``` ruby
+Savon.client(convert_tags_to: lambda { |key| key.upcase })
 ```
 
 Any object that responds to `#log` can be used to replace the default logger.
 
 ``` ruby
-Savon.new_client(logger: Rails.logger)
+Savon.client(logger: Rails.logger)
 ```
 
-You can pimp the log output for debugging purposes.
+You can format the log output for debugging purposes.
 
 ``` ruby
-Savon.new_client(pretty_print_xml: true)
+Savon.client(pretty_print_xml: true)
 ```
 
 Savon supports HTTP basic authentication.
 
 ``` ruby
-Savon.new_client(basic_auth: ["luke", "secret"])
+Savon.client(basic_auth: ["luke", "secret"])
 ```
 
 And HTTP digest authentication.
 
 ``` ruby
-Savon.new_client(digest_auth: ["lea", "top-secret"])
+Savon.client(digest_auth: ["lea", "top-secret"])
 ```
 
 Savon comes with a nice set of specs that cover both
@@ -196,6 +210,21 @@ And if you need to, you can even send completely custom XML.
 client.call(:authenticate, xml: "<envelope><body></body></envelope>")
 ```
 
+Savon by default instructs Nori to use "advanced typecasting" to convert XML values like
+"true" to `TrueClass`, dates to date objects, etc.
+
+``` ruby
+client.call(:authenticate, advanced_typecasting: false)
+```
+
+Savon uses Nori's Nokogiri parser by default. It ships with a REXML parser as an alternative.
+If you need to switch to REXML, please open an issue and describe the problem you have with
+the Nokogiri parser.
+
+``` ruby
+client.call(:authenticate, response_parser: :rexml)
+```
+
 Savon comes with a nice set of specs that cover both
 [global and local options](https://github.com/savonrb/savon/blob/version2/spec/integration/options_spec.rb).
 
@@ -235,8 +264,8 @@ Roadmap
 
 Here is a list of things that still need to be addressed:
 
-* `Savon::Model` currently still used the "old" client
-* `Savon::Spec` does not work with the new interface
+* `Savon::Model` currently still does not work
+* `Savon::Spec` depends on hooks and does not work with the new interface
 * SSL, WSSE and NTLM authentication are currently not supported
 
 This list may be far from complete, so please let me know if there's anything missing.  
