@@ -8,7 +8,7 @@ Getting started
 
 As explained in [this blog post](http://savonrb.com/2012/06/30/milestones.html), Savon's public interface
 needs to change in order to support refactorings and new features. I dropped the initial plan to add the
-new interface to nay 1.x release. Instead, I pushed the [version2 branch](https://github.com/savonrb/savon/tree/version2)
+new interface to an upcoming 1.x release. Instead, I pushed the [version2 branch](https://github.com/savonrb/savon/tree/version2)
 up at Github, so you can follow the progress and there's also [issue 332](https://github.com/savonrb/savon/issues/332)
 for you to discuss the changes.
 
