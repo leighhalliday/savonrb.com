@@ -288,10 +288,10 @@ Savon.client(wsse_timestamp: true)
 ```
 
 
-Operations
-----------
+Requests
+--------
 
-To execute a SOAP request, you can ask Savon for an operation and call it with a message to send:
+To execute a SOAP request, you can ask Savon for an operation and call it with a message to send.
 
 ``` ruby
 message = { username: 'luke', password: 'secret' }
