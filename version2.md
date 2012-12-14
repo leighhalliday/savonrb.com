@@ -3,14 +3,14 @@ title: Version 2
 layout: version2
 ---
 
-Getting started
----------------
+Version 2
+---------
 
-As I tried to explain in [this blog post](/2012/06/30/milestones.html), Savon's public interface
-needs to change in order to allow future refactorings and new features. I dropped the initial plan to add the
-new interface to an upcoming 1.x release. Instead, I pushed the [version2 branch](https://github.com/savonrb/savon/tree/version2)
-up to Github, so you can follow the progress. I'm updating [issue 332](https://github.com/savonrb/savon/issues/332)
-when there are new changes to test.
+As I tried to explain in [this blog post](/2012/06/30/milestones.html), Savon's public interface needs to
+change in order to allow future refactorings and new features. I dropped the initial plan to add the new
+interface to an upcoming 1.x release. Instead, I pushed the [version2 branch](https://github.com/savonrb/savon/tree/version2)
+up to Github, so everyone can follow the progress. I'm also updating [issue 332](https://github.com/savonrb/savon/issues/332)
+when there are new changes to be tried out.
 
 The new interface is not yet feature-complete, but I would really appreciate your feedback!  
 To give it a try, add the following line to your Gemfile:
