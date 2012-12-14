@@ -402,9 +402,51 @@ The example rescues from HTTP errors, logs the HTTP response code and re-raises 
 Response
 --------
 
-The response should work like it ever did with one exception. I removed the `#[]` method,
-so you might change to use the `#body` method instead.
+The new response is missing the `#[]` method, but apart from that, it works exactly like it always did.
 
+**#header** translates and returns the SOAP header as a Hash.
+
+``` ruby
+response.header  # => { token: "secret" }
+```
+
+**#body** translates and returns the SOAP body as a Hash.
+
+``` ruby
+response.body  # => { response: { success: true, name: "luke" } }
+```
+
+**#to_xml** returns the raw SOAP response.
+
+``` ruby
+response.to_xml  # => "<response><success>true</success><name>luke</name></response>"
+```
+
+**#doc** returns the SOAP response as a [Nokogiri](http://nokogiri.org/) document.
+
+``` ruby
+response.doc  # => #<Nokogiri::XML::Document:0x1017b4268 ...
+```
+
+**#xpath** delegates to [Nokogiri's xpath method](http://nokogiri.org/Nokogiri/XML/Node.html#method-i-xpath).
+
+``` ruby
+response.xpath("//v1:authenticateResponse/return/success").first.inner_text.should == "true"
+```
+
+**#http** returns the [HTTPI](https://github.com/savonrb/httpi) response.
+
+``` ruby
+response.http  # => #<HTTPI::Response:0x1017b4268 ...
+```
+
+In case you disabled the global `:raise_errors` option, you can ask the response for its state.
+
+``` ruby
+response.success?     # => false
+response.soap_fault?  # => true
+response.http_error?  # => false
+```
 
 Model
 -----
