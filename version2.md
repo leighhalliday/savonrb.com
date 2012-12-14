@@ -298,11 +298,14 @@ message = { username: 'luke', password: 'secret' }
 response = client.call(:authenticate, message: message)
 ```
 
-In this example, `:authenticate` is the name of the SOAP operation and the `message` Hash is what was formerly
-known as the SOAP `body` Hash. The reason to change the naming is related to the SOAP request and the fact that
-the former "body" never really influenced the entire SOAP body.
+In this example, the Symbol `:authenticate` is the name of the SOAP operation and the `message` Hash is what
+was known as the SOAP `body` Hash in version 1. The reason to change the naming is related to the SOAP request
+and the fact that the former "body" never really influenced the entire SOAP body.
 
-The operations `#call` method also accepts a couple of local options.
+If Savon has a WSDL, it verifies whether your service actually contains the operation you're trying to call
+and raises an `ArgumentError` in case it doesn't exist.
+
+The operations `#call` method also accepts a few local options.
 
 
 Locals
