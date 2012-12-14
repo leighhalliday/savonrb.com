@@ -20,8 +20,8 @@ gem "savon", github: "savonrb/savon", branch: "version2"
 ```
 
 
-The Client
-----------
+Client
+------
 
 The new client works a little bit different than the current one. Here's how you would instantiate a new
 client and point it to a remote WSDL document.
@@ -159,6 +159,19 @@ And HTTP digest authentication.
 Savon.client(digest_auth: ["lea", "top-secret"])
 ```
 
+As well as WSSE basic/digest auth.
+
+``` ruby
+Savon.client(wsse_auth: ["lea", "top-secret"])
+Savon.client(wsse_auth: ["lea", "top-secret", :digest])
+```
+
+And activate WSSE timestamp auth:
+
+``` ruby
+Savon.client(wsse_timestamp: true)
+```
+
 Savon comes with a nice set of specs that cover both
 [global and local options](https://github.com/savonrb/savon/blob/version2/spec/integration/options_spec.rb).
 
@@ -236,15 +249,65 @@ The response should work like it ever did with one exception. I removed the `#[]
 so you might change to use the `#body` method instead.
 
 
+Model
+-----
+
+`Savon::Model` was simplified and refactored to work with the new interface.
+
+``` ruby
+class AuthService
+  extend Savon::Model
+
+  # initialize the client with a :wsdl or the :endpoint and :namespace
+  client wsdl: "http://example.com?wsdl"
+
+  # define additional global options
+  global :open_timeout, 30
+  global :basic_auth, "luke", "secret"
+
+  # define the operations of your model
+  operations :authenticate
+end
+```
+
+The `.client` method must be called to properly setup the client. Additional global options can be
+set using the `.global` method and `.operations` (formerly known as `.actions`) is used to create
+the class and instance methods of your model.
+
+Both class and instance methods accept a Hash of local options, call the operation and return a response.
+
+``` ruby
+# instance operations
+service = AuthService.new
+response = service.authenticate(message: { username: "luke", secret: "secret" })
+
+# class operations
+response = AuthService.authenticate(message: { username: "luke", secret: "secret" })
+```
+
+Operation methods can be overwritten to simplify the interface. Remember to call `super` to execute the request.
+
+{% highlight ruby %}
+class User
+  extend Savon::Model
+
+  client wsdl: "http://example.com?wsdl"
+  operations :get_user, :get_all_users
+
+  def get_user(id)
+    response = super(message: { user_id: id })
+    response.body[:get_user_response][:return]
+  end
+
+end
+{% endhighlight %}
+
+
 Changes
 -------
 
 A probably incomplete list of changes to help you migrate your application.
 
-
-### Naming
-
-* The SOAP `body` Hash is called `message` in the new interface.
 
 ### Removals
 
@@ -264,9 +327,9 @@ Roadmap
 
 Here is a list of things that still need to be addressed:
 
-* `Savon::Model` currently still does not work
 * `Savon::Spec` depends on hooks and does not work with the new interface
-* SSL, WSSE and NTLM authentication are currently not supported
+* WSSE signature was not covered by specs and has been removed
+* SSL client and NTLM auth are currently not supported
 
 This list may be far from complete, so please let me know if there's anything missing.  
 Thanks in advance!
