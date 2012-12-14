@@ -181,7 +181,19 @@ Savon.client(open_timeout: 5, read_timeout: 5)
 This might be useful for setting a global authentication token or any other kind of metadata.
 
 ``` ruby
-Savon.client(soap_header: { "Authentication" => "top-secret" })
+Savon.client(soap_header: { "Token" => "secret" })
+```
+
+This is the header created for the options:
+
+``` xml
+<env:Envelope
+    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:v1="http://v1.example.com/">
+  <env:Header>
+    <Token>secret</Token>
+  </env:Header>
+</env:Envelope>
 ```
 
 **element_form_default:** Savon should extract whether to qualify elements from the WSDL.
@@ -340,6 +352,51 @@ and describe the problem you have with the Nokogiri parser.
 ``` ruby
 client.call(:authenticate, response_parser: :rexml)
 ```
+
+
+Errors
+------
+
+**Savon::Error** is the base class for all other Savon errors. This allows you to either rescue a specific
+error like `Savon::SOAPFault` or rescue `Savon::Error` to catch them all.
+
+**Savon::SOAPFault** is raised when the server returns a SOAP fault error. The error object contains the
+[HTTPI](https://github.com/savonrb/httpi) response for you to further investigate what went wrong.
+
+``` ruby
+def authenticate(credentials)
+  client.call(:authenticate, message: credentials)
+rescue Savon::SOAPFault => error
+  Logger.log error.http.code
+  raise
+end
+```
+
+The example above rescues from SOAP faults, logs the HTTP response code and re-raises the SOAP fault.
+You can also translate the SOAP fault response into a Hash.
+
+``` ruby
+def authenticate(credentials)
+  client.call(:authenticate, message: credentials)
+rescue Savon::SOAPFault => error
+  fault_code = error.to_hash[:fault][:faultcode]
+  raise CustomError, fault_code
+end
+```
+
+**Savon::HTTPError** is raised when Savon considers the HTTP response to be not successful. You can rescue
+this error and access the [HTTPI](https://github.com/savonrb/httpi) response for investigation.
+
+``` ruby
+def authenticate(credentials)
+  client.call(:authenticate, message: credentials)
+rescue Savon::HTTPError => error
+  Logger.log error.http.code
+  raise
+end
+```
+
+The example rescues from HTTP errors, logs the HTTP response code and re-raises the error.
 
 
 Response
