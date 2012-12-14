@@ -1,6 +1,6 @@
 ---
 title: Version 2
-layout: default
+layout: version2
 ---
 
 Getting started
