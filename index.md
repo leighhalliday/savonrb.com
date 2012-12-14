@@ -1,6 +1,6 @@
 ---
 title: Getting started
-layout: default
+layout: version1
 ---
 
 Installation

@@ -18,19 +18,21 @@
 
   <body>
     <div class="container">
-      {% include nav.html %}
+      {% include nav_blog.html %}
 
       <div id="content">
         {% include header.html %}
 
-        <article>
+        <article class="blog">
           {{content}}
         </article>
 
+        <div id="disqus_thread"></div>
         {% include footer.html %}
       </div>
     </div>
 
     {% include analytics.html %}
+    {% include disqus.html %}
   </body>
 </html>

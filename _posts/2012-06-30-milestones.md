@@ -1,6 +1,6 @@
 ---
 title: Milestones
-layout: article
+layout: blog
 ---
 
 Milestones
