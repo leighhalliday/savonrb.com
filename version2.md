@@ -313,19 +313,55 @@ Locals
 
 Local options are passed to the client's `#call` method and are specific to a single request.
 
-**message:** You probably want to add some arguments to your request. The SOAP message can be a Hash which
-Savon translates via [Gyoku](https://github.com/savonrb/gyoku) or an XML String.
+**message:** You probably want to add some arguments to your request. For simple XML which can
+easily be represented as a Hash, you can pass the SOAP message as a Hash. Savon uses [Gyoku](https://github.com/savonrb/gyoku)
+to translate the Hash into XML.
 
 ``` ruby
 client.call(:authenticate, message: { username: 'luke', password: 'secret' })
-client.call(:authenticate, message: "<username>luke</username><password>secret</password>")
+```
+
+For more complex XML structures, you can pass any other object that is not a Hash and responds
+to `#to_s` if you want to use a more specific tool to build your request.
+
+``` ruby
+class ServiceRequest
+
+  def to_s
+    builder = Builder::XmlMarkup.new
+    builder.instruct!(:xml, encoding: "UTF-8")
+
+    builder.person { |b|
+      b.username("luke")
+      b.password("secret")
+    }
+
+    builder
+  end
+
+end
+
+client.call(:authenticate, message: ServiceRequest.new)
 ```
 
 **message_tag:** You can change the name of the SOAP message tag. If you need to use this option,
 please open an issue let me know why.
 
 ``` ruby
-client.call(:authenticate, message_tag: :doAuthenticate)
+client.call(:authenticate, message_tag: :authenticationRequest)
+```
+
+This should be set by Savon if it has a WSDL. If it doesn't, it generates a message tag from the SOAP
+operation name. Here's how the option changes the request.
+
+``` xml
+<env:Envelope
+    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:tns="http://v1.example.com/">
+  <env:Body>
+    <tns:authenticationRequest></tns:authenticationRequest>
+  </env:Body>
+</env:Envelope>
 ```
 
 **soap_action:** You might need to set this if you don't have a WSDL. Otherwise, Savon should set the proper
