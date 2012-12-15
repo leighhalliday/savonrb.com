@@ -480,19 +480,84 @@ end
 Response
 --------
 
-The new response is missing the `#[]` method, but apart from that, it works exactly like it always did.
+The response provides a few convenience methods for you to work with the XML in any way you want.
 
-**#header** translates and returns the SOAP header as a Hash.
+**#header** translates the response and returns the SOAP header as a Hash.
 
 ``` ruby
 response.header  # => { token: "secret" }
 ```
 
-**#body** translates and returns the SOAP body as a Hash.
+**#body** translates the response and returns the SOAP body as a Hash.
 
 ``` ruby
 response.body  # => { response: { success: true, name: "luke" } }
 ```
+
+**#hash** translates the response and returns it as a Hash.
+
+``` ruby
+response.hash  # => { envelope: { header: { ... }, body: { ... } } }
+```
+
+Savon uses [Nori](http://rubygems.org/gems/nori) to translate the SOAP response XML to a Hash.
+You can change how the response is translated through a couple of global and local options.
+The following example shows the options available to configure Nori and their defaults.
+
+``` ruby
+client = Savon.client do
+  # Savon defaults to strip namespaces from the response
+  strip_namespaces true
+
+  # Savon defaults to convert XML tags to snakecase Symbols
+  convert_tags_to { |tag| tag.snakecase.to_sym }
+end
+
+client.call(:operation) do
+  # Savon defaults to activate "advanced typecasting"
+  advanced_typecasting true
+
+  # Savon defaults to the Nokogiri parser
+  response_parser :nokogiri
+end
+```
+
+These options map to Nori's options and you can find more information about how they work in
+the [README](https://github.com/savonrb/nori/blob/master/README.md).
+
+**advanced_typecasting:** Savon by default instructs [Nori](https://github.com/savonrb/nori) to use its
+"advanced typecasting" to convert XML values like `"true"` to `TrueClass`, dates to date objects, etc.
+
+``` ruby
+client.call(:authenticate, advanced_typecasting: false)
+```
+
+**response_parser:** Savon defaults to [Nori's](https://github.com/savonrb/nori) Nokogiri parser.
+Nori ships with a REXML parser as an alternative. If you need to switch to REXML, please open an issue
+and describe the problem you have with the Nokogiri parser.
+
+``` ruby
+client.call(:authenticate, response_parser: :rexml)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 **#to_xml** returns the raw SOAP response.
 
