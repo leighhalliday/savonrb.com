@@ -490,55 +490,75 @@ response.http_error?  # => false
 Model
 -----
 
-`Savon::Model` was simplified and refactored to work with the new interface.
+`Savon::Model` can be used to model a class interface on top of a SOAP service. Extending any class
+with this module will give you three class methods to configure the service model.
+
+**.client** sets up the client instance used by the class.
+
+Needs to be called before any other model class method to set up the Savon client with a `:wsdl` or
+the `:endpoint` and `:namespace` of the service.
 
 ``` ruby
-class AuthService
-  extend Savon::Model
-
-  # initialize the client with a :wsdl or the :endpoint and :namespace
-  client wsdl: "http://example.com?wsdl"
-
-  # define additional global options
-  global :open_timeout, 30
-  global :basic_auth, "luke", "secret"
-
-  # define the operations of your model
-  operations :authenticate
-end
-```
-
-The `.client` method must be called to properly setup the client. Additional global options can be
-set using the `.global` method and `.operations` (formerly known as `.actions`) is used to create
-the class and instance methods of your model.
-
-Both class and instance methods accept a Hash of local options, call the operation and return a response.
-
-``` ruby
-# instance operations
-service = AuthService.new
-response = service.authenticate(message: { username: "luke", secret: "secret" })
-
-# class operations
-response = AuthService.authenticate(message: { username: "luke", secret: "secret" })
-```
-
-Operation methods can be overwritten to simplify the interface. Remember to call `super` to execute the request.
-
-{% highlight ruby %}
 class User
   extend Savon::Model
 
   client wsdl: "http://example.com?wsdl"
-  operations :get_user, :get_all_users
-
-  def get_user(id)
-    response = super(message: { user_id: id })
-    response.body[:get_user_response][:return]
-  end
-
+  # or
+  client endpoint: "http://example.com", namespace: "http://v1.example.com"
 end
-{% endhighlight %}
+```
+
+**.global** sets a global option to a given value.
+
+If there are multiple arguments for an option (like an auth method requiering username and password),
+you can pass those as separate arguments to the `.global` method instead of passing an Array.
+
+``` ruby
+class User
+  extend Savon::Model
+
+  client wsdl: "http://example.com?wsdl"
+
+  global :open_timeout, 30
+  global :basic_auth, "luke", "secret"
+end
+```
+
+**.operations** defines class and instance methods for he given SOAP operations.
+
+Use this method to specify which SOAP operations should be available through your service model.
+
+``` ruby
+class User
+  extend Savon::Model
+
+  client wsdl: "http://example.com?wsdl"
+
+  global :open_timeout, 30
+  global :basic_auth, "luke", "secret"
+
+  operations :authenticate, :find_user
+
+  def self.find_user(id)
+    super(message: { id: id })
+  end
+end
+```
+
+For every SOAP operation, it creates both class and instance methods. All thesemethods call the
+service with an optional Hash of local options and return a response.
+
+``` ruby
+# instance operations
+user = User.new
+response = user.authenticate(message: { username: "luke", secret: "secret" })
+
+# class operations
+response = User.find_user(1)
+```
+
+In the previous User class example, we're overwriting the `.find_user` operation and delegating to `super`
+with a SOAP message Hash. You can do that both on the class and on the instance.
 
 
 Changes
