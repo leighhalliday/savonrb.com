@@ -76,7 +76,8 @@ a block to use the instance_eval with delegation pattern.
 
 ``` ruby
 response = client.call(:authenticate) do
-  message(username: "luke", password: "secret")
+  message username: "luke", password: "secret"
+  convert_tags_to { |tag| tag.upcase }
 end
 ```
 
@@ -84,7 +85,8 @@ You can also accept an argument in your block and Savon will yield the local opt
 
 ``` ruby
 response = client.call(:authenticate) do |locals|
-  locals.message(username: "luke", password: "secret")
+  locals.message username: "luke", password: "secret"
+  locals.wsse_auth "luke", "secret", :digest
 end
 ```
 
