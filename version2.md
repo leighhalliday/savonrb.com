@@ -23,56 +23,82 @@ gem "savon", github: "savonrb/savon", branch: "version2"
 Client
 ------
 
-The new client should be a lot simpler to use than the old one. It only accepts a Hash of global options (globals).
-To create a new client backed by a WSDL document, you pass it the URL of a remote WSDL or the path to a local WSDL
-on the file system.
+The new client should be a lot simpler to use than the old one, because everything in Savon 2.0 is based on
+a defined set of global and local options. To create a new client based on a WSDL document, you could set the
+global `:wsdl` option by passing a Hash to the `Savon.client` "factory method". The client's constructor
+accepts various [global options](#globals) which are specific to a service.
 
 ``` ruby
 client = Savon.client(wsdl: "http://example.com?wsdl")
-client = Savon.client(wsdl: "/Users/me/project/service.wsdl")
 ```
 
-In case the service doesn't offer a WSDL, you need to tell Savon about the SOAP endpoint and target namespace
-of your service. You can also use these options to overwrite these values on your WSDL.
-
-If you used Savon version 1 before, this should look familiar to you. But in contrast to the old client,
-which was configured via a block and various method calls, the new client only knows about options. Every
-possible configuration available for version 1 should be present as an option on the new interface. If you're
-missing any features, [please open an issue](https://github.com/savonrb/savon/issues).
-
-Savon knows two types of options. Global options (globals), which are specific to a service and local
-options (locals), which are specific to a single request.
-
-Although they are called "global options", they really are local to a client instance. Savon version 1 based
-on the concept of a global `Savon.configure` method to store the configuration. While this was a popular concept
-back then, probably introduced by RSpec?, and adapted by a lot of other libraries, the problem is that it
-introduces global state. Version 2 should work much better in multi-threaded environments.
+Along with the simple Hash-based interface, Savon also comes with an interface based on blocks. This should sound
+familiar to you if you used version 1 before. If you're passing a block to the constructor, it is executed using the
+[instance_eval with delegation](http://www.dcmanges.com/blog/ruby-dsls-instance-eval-with-delegation) pattern.
+It's a smart, but ugly, but convenient little hack.
 
 ``` ruby
-# create a new client
-client = Savon.client(globals)
-
-# call a SOAP operation
-response = client.call(:authenticate, locals)
+client = Savon.client do
+  wsdl "http://example.com?wsdl"
+end
 ```
 
-Sending SOAP requests can be this simple. This is the basic interface of the new client. If you look at the
-variable names passed into the two methods, you can see that globals are passed to the client's constructor
-and locals are passed when calling a SOAP operation.
+The downside to this interface is, that it doesn't allow you to use instance variables inside the block.
+You can only use local variables or call methods on your class. If you don't mind to type a few more
+characters, you could accept an argument in your block and Savon will simply yield the global options
+to it. That way, you can use as many instance variables as you like.
 
-If you passed Savon a WSDL, it can tell you about the SOAP operations available for the service.
+``` ruby
+client = Savon.client do |globals|
+  globals.wsdl "http://example.com?wsdl"
+end
+```
+
+In case the service doesn't have a WSDL, you need to tell Savon about the SOAP endpoint and target namespace
+of your service. Only with a WSDL, Savon can tell you about the SOAP operations available for the service.
 
 ``` ruby
 client.operations  # => [:authenticate, :find_user]
 ```
 
-And that's it. The public API. Quite concise. But then of course, there are a lot of options.
+The client was build to send SOAP messages, so let's do that.
+
+``` ruby
+response = client.call(:authenticate, message: { username: "luke", password: "secret" })
+```
+
+If you used Savon before, this should look familiar to you. But in contrast to the old client, the new
+`#call` method does not provide the same interface as the old `#request` method. It's all about options,
+so here's where you can use various [local options](#locals) that are specific to a request.
+
+The `#call` method supports the same interface as the constructor. You can pass a simple Hash or
+a block to use the instance_eval with delegation pattern.
+
+``` ruby
+response = client.call(:authenticate) do
+  message(username: "luke", password: "secret")
+end
+```
+
+You can also accept an argument in your block and Savon will yield the local options to it.
+
+``` ruby
+response = client.call(:authenticate) do |locals|
+  locals.message(username: "luke", password: "secret")
+end
+```
+
+And that's it. The public API. Quite concise. But then of course, there are tons of options.
 
 
 Globals
 -------
 
 Global options are passed to the client's constructor and are specific to a service.
+
+Although they are called "global options", they really are local to a client instance. Savon version 1 was
+based on a global `Savon.configure` method to store the configuration. While this was a popular concept
+back then, adapted by tons of libraries, its problem is global state. I tried to fix that problem.
 
 **wsdl:** Savon accepts either a local or remote WSDL document which it uses to extract information like
 the SOAP endpoint and target namespace of the service.
@@ -591,6 +617,8 @@ properly tested implementation, please talk to me.
 
 Roadmap
 -------
+
+If you think anything's missing, and there probably is, [please open an issue](https://github.com/savonrb/savon/issues).
 
 **Savon::Spec** depends on hooks and does not work with the new interface. Maybe a lightweight integration server
 could solve this problem in a better way.
