@@ -525,40 +525,6 @@ end
 These options map to Nori's options and you can find more information about how they work in
 the [README](https://github.com/savonrb/nori/blob/master/README.md).
 
-**advanced_typecasting:** Savon by default instructs [Nori](https://github.com/savonrb/nori) to use its
-"advanced typecasting" to convert XML values like `"true"` to `TrueClass`, dates to date objects, etc.
-
-``` ruby
-client.call(:authenticate, advanced_typecasting: false)
-```
-
-**response_parser:** Savon defaults to [Nori's](https://github.com/savonrb/nori) Nokogiri parser.
-Nori ships with a REXML parser as an alternative. If you need to switch to REXML, please open an issue
-and describe the problem you have with the Nokogiri parser.
-
-``` ruby
-client.call(:authenticate, response_parser: :rexml)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 **#to_xml** returns the raw SOAP response.
 
 ``` ruby
