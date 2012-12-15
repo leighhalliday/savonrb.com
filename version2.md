@@ -145,6 +145,18 @@ You can also use these options to overwrite these values in a WDSL document in c
 Savon.client(encoding: "UTF-16")
 ```
 
+Changing the default affects both the Content-Type header:
+
+``` ruby
+{ "Content-Type" => "text/xml;charset=UTF-16" }
+```
+
+and the XML instruction:
+
+``` xml
+<?xml version="1.0" encoding="UTF-16"?>
+```
+
 **soap_version:** Defaults to SOAP 1.1. Can be set to SOAP 1.2 to use a different SOAP endpoint.
 
 ``` ruby
@@ -173,7 +185,7 @@ falls back to `:wsdl`. No idea why anyone would need to use this option.
 Savon.client(namespace_identifier: :v1)
 ```
 
-Pay attention to the `v1:authenticate` message tag in the generated request:
+Notice the `v1:authenticate` message tag in the generated request:
 
 ``` xml
 <env:Envelope
