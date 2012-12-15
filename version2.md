@@ -50,7 +50,8 @@ to it. That way, you can use as many instance variables as you like.
 
 ``` ruby
 client = Savon.client do |globals|
-  globals.wsdl "http://example.com?wsdl"
+  globals.endpoint @endpoint
+  globals.namespace @namespace
 end
 ```
 
