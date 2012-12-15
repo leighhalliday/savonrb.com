@@ -564,30 +564,37 @@ with a SOAP message Hash. You can do that both on the class and on the instance.
 Changes
 -------
 
-A probably incomplete list of changes to help you migrate your application.
+A probably incomplete list of changes to help you migrate your application. Let me know if you think there's
+something missing.
 
+**Savon.config** was removed to better support concurrent usage and allow to use Savon in multiple different
+configurations in a single project.
 
-### Removals
+**Hooks** are no longer supported. The implementation was way too complex and still didn't properly solve the
+problem of serving as a mock-helper for the [Savon::Spec](http://rubygems.org/gems/savon_spec) gem. If you used
+them for any other purpose, please open an issue and we may find a better solution.
 
-* The new interface does not use `Savon.config` as it introduced global state.
-* Hooks are no longer supported. We need to find a simpler solution for this problem.
-* The new `Savon::Response` does not have a `#[]` method. Use the `#body` method instead.
+**Nori** was updated to remove global state. All Nori 2.0 options are now encapsulated and can be configured
+through Savon's options. This allows to use Nori in multiple different configurations in a project that uses Savon.
 
-### Simplified the object hierarchy
+**WSSE signature** was not covered with specs and has been removed. If anyone uses this and wants to provide a
+properly tested implementation, please talk to me.
 
-* Instead of raising a `Savon::SOAP::Fault`, the new interface raises a `Savon::SOAPFault`.
-* Instead of raising a `Savon::HTTP::Error`, the new interface raises a `Savon::HTTPError`.
-* Instead of raising a `Savon::SOAP::InvalidResponseError`, the new interface raises a `Savon::InvalidResponseError`.
+**response[]** the Hash-like read-access to the response was removed.
+
+**Savon::SOAP::Fault** was renamed to `Savon::SOAPFault`.
+
+**Savon::HTTP::Error** was renamed to `Savon::HTTPError`.
+
+**Savon::SOAP::InvalidResponseError** was renamed to `Savon::InvalidResponseError`.
 
 
 Roadmap
 -------
 
-Here is a list of things that still need to be addressed:
+**Savon::Spec** depends on hooks and does not work with the new interface. Maybe a lightweight integration server
+could solve this problem in a better way.
 
-* `Savon::Spec` depends on hooks and does not work with the new interface
-* WSSE signature was not covered by specs and has been removed
-* SSL client and NTLM auth are currently not supported
+**SSL client authentication** does not seem to work right now. Needs integration tests.
 
-This list may be far from complete, so please let me know if there's anything missing.  
-Thanks in advance!
+**NTLM authentication** probably does not work right now. Needs specs and integration tests.
