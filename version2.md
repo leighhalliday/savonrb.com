@@ -13,7 +13,7 @@ up to Github, so everyone can follow the progress. I'm also updating [issue 332]
 when there are new changes to be tried out.
 
 The new interface is not yet feature-complete, but I would really appreciate your feedback!  
-To give it a try, add the following line to your Gemfile:
+To give it a try, add the following line to your Gemfile to get started:
 
 ``` ruby
 gem "savon", github: "savonrb/savon", branch: "version2"
