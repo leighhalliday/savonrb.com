@@ -685,3 +685,5 @@ could solve this problem in a better way.
 **SSL client authentication** does not seem to work right now. Needs integration tests.
 
 **NTLM authentication** probably does not work right now. Needs specs and integration tests.
+
+**HTTPI** updated to version 2 which comes with support for EventMachine.
