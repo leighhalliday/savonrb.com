@@ -237,7 +237,7 @@ Savon.client(element_form_default: :qualified)
 and query the response instead.
 
 ``` ruby
-Savon.client(raise_errors: true)
+Savon.client(raise_errors: false)
 ```
 
 **strip_namespaces:** Savon configures [Nori](https://github.com/savonrb/nori) to strip any namespace
