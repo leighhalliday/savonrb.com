@@ -54,22 +54,30 @@ client = Savon.client do |globals|
 end
 ```
 
-In case the service doesn't have a WSDL, you need to tell Savon about the SOAP endpoint and target namespace
-of your service. Only with a WSDL, Savon can tell you about the SOAP operations available for the service.
+In case your service doesn't have a WSDL, you need to tell Savon about its SOAP endpoint and target namespace.
+
+``` ruby
+client = Savon.client do
+  endpoint "http://example.com"
+  namespace "http://v1.example.com"
+end
+```
+
+A nice little feature that comes with a WSDL, is that Savon can tell you about the available operations.
 
 ``` ruby
 client.operations  # => [:authenticate, :find_user]
 ```
 
-The client was build to send SOAP messages, so let's do that.
+But the client really exists to send SOAP messages, so let's do that.
 
 ``` ruby
 response = client.call(:authenticate, message: { username: "luke", password: "secret" })
 ```
 
-If you used Savon before, this should look familiar to you. But in contrast to the old client, the new
-`#call` method does not provide the same interface as the old `#request` method. It's all about options,
-so here's where you can use various [local options](#locals) that are specific to a request.
+If you used Savon before, this should also look familiar to you. But in contrast to the old client,
+the new `#call` method does not provide the same interface as the old `#request` method. It's all about
+options, so here's where you have various [local options](#locals) that are specific to a request.
 
 The `#call` method supports the same interface as the constructor. You can pass a simple Hash or
 a block to use the instance_eval with delegation pattern.
@@ -77,7 +85,7 @@ a block to use the instance_eval with delegation pattern.
 ``` ruby
 response = client.call(:authenticate) do
   message username: "luke", password: "secret"
-  convert_tags_to { |tag| tag.upcase }
+  convert_request_tags_to { |tag| tag.upcase }
 end
 ```
 
@@ -89,8 +97,6 @@ response = client.call(:authenticate) do |locals|
   locals.wsse_auth "luke", "secret", :digest
 end
 ```
-
-And that's it. The public API. Quite concise. But then of course, there are tons of options.
 
 
 Globals
@@ -267,7 +273,7 @@ Here's how the response Hash would look like if namespaces were not stripped fro
 response.hash["soap:envelope"]["soap:body"]["ns2:authenticate_response"]
 ```
 
-**convert_tags_to:** Savon also instructs [Nori](https://github.com/savonrb/nori) to convert any
+**convert_response_tags_to:** Savon also instructs [Nori](https://github.com/savonrb/nori) to convert any
 XML tag from the response to a snakecase Symbol.
 
 This is why accessing the response as a Hash looks natural:
@@ -280,7 +286,8 @@ You can specify your own `Proc` or any object that responds to `#call`. It is ca
 tag and simply has to return the converted tag.
 
 ``` ruby
-Savon.client(convert_tags_to: lambda { |key| key.snakecase.upcase })
+upcase = lambda { |key| key.snakecase.upcase }
+Savon.client(convert_response_tags_to: upcase)
 ```
 
 You can have it your very own way.
@@ -524,7 +531,7 @@ client = Savon.client do
   strip_namespaces true
 
   # Savon defaults to convert XML tags to snakecase Symbols
-  convert_tags_to { |tag| tag.snakecase.to_sym }
+  convert_request_tags_to { |tag| tag.snakecase.to_sym }
 end
 
 client.call(:operation) do
