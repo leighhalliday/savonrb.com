@@ -32,7 +32,7 @@ accepts various [global options](#globals) which are specific to a service.
 client = Savon.client(wsdl: "http://example.com?wsdl")
 ```
 
-Along with the simple Hash-based interface, Savon also comes with an interface based on blocks. This should sound
+Along with the simple Hash-based interface, Savon also comes with an interface based on blocks. This should look
 familiar to you if you used version 1 before. If you're passing a block to the constructor, it is executed using the
 [instance_eval with delegation](http://www.dcmanges.com/blog/ruby-dsls-instance-eval-with-delegation) pattern.
 It's a smart, but ugly, but convenient little hack.
