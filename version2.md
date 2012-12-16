@@ -12,8 +12,8 @@ interface to an upcoming 1.x release. Instead, I pushed the [version2 branch](ht
 up to Github, so everyone can follow the progress. I'm also updating [issue 332](https://github.com/savonrb/savon/issues/332)
 when there are new changes to be tried out.
 
-The new interface is not yet feature-complete, but I would really appreciate your feedback!  
-To give it a try, add the following line to your Gemfile to get started:
+Savon 2.0 is almost feature-complete and I would really appreciate your feedback!
+To get started, add the following line to your Gemfile:
 
 ``` ruby
 gem "savon", github: "savonrb/savon", branch: "version2"
