@@ -85,7 +85,7 @@ a block to use the instance_eval with delegation pattern.
 ``` ruby
 response = client.call(:authenticate) do
   message username: "luke", password: "secret"
-  convert_request_tags_to { |tag| tag.upcase }
+  convert_request_keys_to :camelcase
 end
 ```
 
@@ -273,6 +273,33 @@ Here's how the response Hash would look like if namespaces were not stripped fro
 response.hash["soap:envelope"]["soap:body"]["ns2:authenticate_response"]
 ```
 
+**convert_request_keys_to:** Savon instructs Gyoku to convert SOAP message Hash key Symbols to
+lowerCamelcase XML tags. You can change this to CamelCase, UPCASE or completely disable any conversion.
+
+``` ruby
+client = Savon.client do
+  convert_request_keys_to :camelcase  # or one of [:lower_camelcase, :upcase, :none]
+end
+
+client.call(:find_user) do
+  message(user_name: "luke")
+end
+```
+
+This example converts all keys in the request Hash to CamelCase tags.
+
+``` xml
+<env:Envelope
+    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:wsdl="http://v1.example.com">
+  <env:Body>
+    <wsdl:FindUser>
+      <UserName>luke</UserName>
+    </wsdl:FindUser>
+  </env:Body>
+</env:Envelope>
+```
+
 **convert_response_tags_to:** Savon also instructs [Nori](https://github.com/savonrb/nori) to convert any
 XML tag from the response to a snakecase Symbol.
 
@@ -352,7 +379,11 @@ and the fact that the former "body" never really influenced the entire SOAP body
 If Savon has a WSDL, it verifies whether your service actually contains the operation you're trying to call
 and raises an `ArgumentError` in case it doesn't exist.
 
-The operations `#call` method also accepts a few local options.
+When you're calling a SOAP operation with a message Hash, Savon defaults to convert Hash key Symbols to
+lowerCamelcase XML tags. It does not convert any Hash key Strings. You can change this with the global
+`:convert_request_keys_to` option.
+
+The operations `#call` method accepts a few local options.
 
 
 Locals
@@ -530,8 +561,8 @@ client = Savon.client do
   # Savon defaults to strip namespaces from the response
   strip_namespaces true
 
-  # Savon defaults to convert XML tags to snakecase Symbols
-  convert_request_tags_to { |tag| tag.snakecase.to_sym }
+  # Savon defaults to convert Hash key Symbols to lowerCamelCase XML tags
+  convert_request_keys_to :camelcase
 end
 
 client.call(:operation) do
@@ -667,6 +698,9 @@ them for any other purpose, please open an issue and we may find a better soluti
 
 **Nori** was updated to remove global state. All Nori 2.0 options are now encapsulated and can be configured
 through Savon's options. This allows to use Nori in multiple different configurations in a project that uses Savon.
+
+**Gyoku** was also updated to remove global state. All Gyoku 1.0 options are encapsulated and can be configured
+through Savon. Instead of `Gyoku.convert_symbols_to`, please use the global `:convert_request_keys_to` option.
 
 **WSSE signature** was not covered with specs and has been removed. If anyone uses this and wants to provide a
 properly tested implementation, please talk to me.
