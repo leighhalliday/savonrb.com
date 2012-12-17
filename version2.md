@@ -684,6 +684,116 @@ In the previous User class example, we're overwriting the `.find_user` operation
 with a SOAP message Hash. You can do that both on the class and on the instance.
 
 
+Testing
+-------
+
+Testing integration with a SOAP service does not differ from testing integration with any other service.
+There is really no "right way" of doing this, but from my experience, it's good to have both unit and
+integration tests to strike a balance between test speed and reliability.
+
+Where Savon 1.0 had [Savon::Spec](https://rubygems.org/gems/savon_spec) to mock SOAP requests, Savon 2.0
+comes with support for mocking baked in. Since it's always a good idea to wrap external libraries, let's
+assume you created a simple class for talking to some kind of authentication service.
+
+``` ruby
+require "savon"
+
+class AuthenticationService
+
+  def initialize
+    @client = Savon.client(wsdl: "http://example.com?wsdl")
+  end
+
+  def authenticate(message)
+    @client.call(message: message)
+  end
+
+end
+```
+
+When you're using RSpec, you can include the `Savon::SpecHelper` module in your specs.
+The helper module comes with a simple mock interface available through the `savon` method.
+Instructions for MiniTest will be added asap.
+
+``` ruby
+require "spec_helper"
+
+# require the helper module
+require "savon/mock/spec_helper"
+
+describe AuthenticationService do
+  # include the helper module
+  include Savon::SpecHelper
+
+  # set Savon in and out of mock mode
+  before(:all) { savon.mock!   }
+  after(:all)  { savon.unmock! }
+
+  describe "#authenticate" do
+    it "authenticates the user with the service" do
+      message = { username: "luke", password: "secret" }
+      fixture = File.read("spec/fixtures/authentication_service/authenticate.xml")
+
+      # set up an expectation
+      savon.expects(:authenticate).with(message: message).returns(fixture)
+
+      # call the service
+      service = AuthenticationService.new
+      response = service.authenticate(message)
+
+      expect(response).to be_successful
+    end
+  end
+end
+```
+
+As you can see in this example, you have to explicitly set Savon in and out of mock mode before and after
+your specs. The example uses RSpec's `before` and `after` hooks for that.
+
+**Expectations** are specified through the `#expects` method on the `savon` mock interface. It takes the
+name of a SOAP operation that is expected to be called.
+
+``` ruby
+savon.expects(:authenticate)
+```
+
+**Options** can be tested through the `#with` method. This currently only supports checking the SOAP message,
+but can easily be changed to support any global and or local option along with the generated request XML.
+This is possible because Savon mocks the request as late as possible to ensure everything works as expected
+in your integration tests.
+
+If you're trying to "stub" a request, you can simply leave out the `#with` method, but you need to call the
+`#returns` method to return a response that Savon can work with.
+
+``` ruby
+message = { username: "luke", password: "secret" }
+savon.expects(:authenticate).with(message: message)
+```
+
+**Fixtures** should match a recorded SOAP response from the server for the request you're testing.
+The `#returns` method accepts a few options which are used to create an HTTPI response.
+
+``` ruby
+message = { username: "luke", password: "secret" }
+fixture = File.read("spec/fixtures/authentication_service/authenticate.xml")
+
+savon.expects(:authenticate).with(message: message).returns(fixture)
+```
+
+When passed a String, like in the example above, the `#returns` method defaults to a response code of 200
+with no headers and uses the String as the response body. You can also pass a Hash to specify all values
+yourself. This cab be useful if you're testing SOAP fault responses which have a response code of 500.
+
+``` ruby
+soap_fault = File.read("spec/fixtures/authentication_service/soap_fault.xml")
+
+response = { code: 500, headers: {}, body: soap_fault }
+savon.expects(:authenticate).with(message: message).returns(response)
+```
+
+This is a brand new feature, so please give it a try and let me know what you think.
+
+
 Changes
 -------
 
@@ -718,12 +828,3 @@ properly tested implementation, please talk to me.
 **Savon::HTTP::Error** was renamed to `Savon::HTTPError`.
 
 **Savon::SOAP::InvalidResponseError** was renamed to `Savon::InvalidResponseError`.
-
-
-Roadmap
--------
-
-If you think anything's missing, and there probably is, [please open an issue](https://github.com/savonrb/savon/issues).
-
-**Savon::Spec** depends on hooks and does not work with the new interface. Maybe a lightweight integration server
-could solve this problem in a better way.
