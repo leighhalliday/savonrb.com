@@ -705,6 +705,9 @@ through Savon. Instead of `Gyoku.convert_symbols_to`, please use the global `:co
 
 **HTTPI** was updated to version 2 which comes with [support for EM-HTTPRequest](https://github.com/savonrb/httpi/pull/40).
 
+**NTLM authentication** support will probably be added in the next version. This really needs some good specs
+and integration tests first.
+
 **WSSE signature** was not covered with specs and has been removed. If anyone uses this and wants to provide a
 properly tested implementation, please talk to me.
 
@@ -724,7 +727,3 @@ If you think anything's missing, and there probably is, [please open an issue](h
 
 **Savon::Spec** depends on hooks and does not work with the new interface. Maybe a lightweight integration server
 could solve this problem in a better way.
-
-**SSL client authentication** does not seem to work right now. Needs integration tests.
-
-**NTLM authentication** probably does not work right now. Needs specs and integration tests.
