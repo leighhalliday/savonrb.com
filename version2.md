@@ -703,6 +703,8 @@ through Savon's options. This allows to use Nori in multiple different configura
 **Gyoku** was also updated to remove global state. All Gyoku 1.0 options are encapsulated and can be configured
 through Savon. Instead of `Gyoku.convert_symbols_to`, please use the global `:convert_request_keys_to` option.
 
+**HTTPI** was updated to version 2 which comes with [support for EM-HTTPRequest](https://github.com/savonrb/httpi/pull/40).
+
 **WSSE signature** was not covered with specs and has been removed. If anyone uses this and wants to provide a
 properly tested implementation, please talk to me.
 
@@ -726,5 +728,3 @@ could solve this problem in a better way.
 **SSL client authentication** does not seem to work right now. Needs integration tests.
 
 **NTLM authentication** probably does not work right now. Needs specs and integration tests.
-
-**HTTPI** updated to version 2 which comes with support for EventMachine.
