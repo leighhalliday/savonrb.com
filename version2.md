@@ -273,8 +273,9 @@ Here's how the response Hash would look like if namespaces were not stripped fro
 response.hash["soap:envelope"]["soap:body"]["ns2:authenticate_response"]
 ```
 
-**convert_request_keys_to:** Savon instructs Gyoku to convert SOAP message Hash key Symbols to
-lowerCamelcase XML tags. You can change this to CamelCase, UPCASE or completely disable any conversion.
+**convert_request_keys_to:** Savon tells [Gyoku](https://github.com/savonrb/gyoku) to convert SOAP
+message Hash key Symbols to lowerCamelcase tags. You can change this to CamelCase, UPCASE or completely
+disable any conversion.
 
 ``` ruby
 client = Savon.client do
@@ -300,7 +301,7 @@ This example converts all keys in the request Hash to CamelCase tags.
 </env:Envelope>
 ```
 
-**convert_response_tags_to:** Savon also instructs [Nori](https://github.com/savonrb/nori) to convert any
+**convert_response_tags_to:** Savon tells [Nori](https://github.com/savonrb/nori) to convert any
 XML tag from the response to a snakecase Symbol.
 
 This is why accessing the response as a Hash looks natural:
@@ -455,7 +456,7 @@ client.call(:authenticate, soap_action: "urn:Authenticate")
 client.call(:authenticate, xml: "<envelope><body></body></envelope>")
 ```
 
-**advanced_typecasting:** Savon by default instructs [Nori](https://github.com/savonrb/nori) to use its
+**advanced_typecasting:** Savon by default tells [Nori](https://github.com/savonrb/nori) to use its
 "advanced typecasting" to convert XML values like `"true"` to `TrueClass`, dates to date objects, etc.
 
 ``` ruby
