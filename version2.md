@@ -684,6 +684,53 @@ In the previous User class example, we're overwriting the `.find_user` operation
 with a SOAP message Hash. You can do that both on the class and on the instance.
 
 
+Observers
+---------
+
+Savon has one global way of adding observers to any request.
+
+``` ruby
+class Observer
+
+  def notify(operation_name, builder, globals, locals)
+    nil
+  end
+
+end
+
+Savon.observers << Observer.new
+```
+
+Savon calls the `#notify` method of every observer in the order they were added and passes the name of
+the operation that is being called, the builder which can be asked for the generated request XML and
+any global and local options.
+
+In the previous example, we're explicitly returning `nil` from the `#notify` method to allow Savon to
+continue and execute the request. But you can also return an `HTTPI::Response` to mock the request.
+
+``` ruby
+class Observer
+
+  def notify(operation_name, builder, globals, locals)
+    code    = 200
+    headers = {}
+    body    = ""
+
+    HTTPI::Response.new(code, headers, body)
+  end
+
+end
+
+Savon.observers << Observer.new
+```
+
+Clear the observers if you don't need them.
+
+``` ruby
+Savon.observers.clear
+```
+
+
 Testing
 -------
 
@@ -692,8 +739,8 @@ There is really no "right way" of doing this, but from my experience, it's good 
 integration tests to strike a balance between test speed and reliability.
 
 Where Savon 1.0 had [Savon::Spec](https://rubygems.org/gems/savon_spec) to mock SOAP requests, Savon 2.0
-comes with support for mocking baked in. Since it's always a good idea to wrap external libraries, let's
-assume you created a simple class for talking to some kind of authentication service.
+adds support for mocking requests on top of observers. Since it's always a good idea to wrap external
+libraries, let's assume you created a simple class for talking to some kind of authentication service.
 
 ``` ruby
 require "savon"
