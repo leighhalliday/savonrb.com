@@ -324,8 +324,7 @@ You can have it your very own way.
 response.body["USER_RESPONSE"]["ID"]
 ```
 
-**logger:** Savon logs to `$stdout` using Ruby's default Logger. You can change the logger to any
-any compatible Logger.
+**logger:** Savon logs to `$stdout` using Ruby's default Logger. Can be changed to any compatible logger.
 
 ``` ruby
 Savon.client(logger: Rails.logger)
