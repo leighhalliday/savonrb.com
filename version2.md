@@ -415,7 +415,7 @@ Savon.client(log_level: :info)  # or one of [:debug, :warn, :error, :fatal]
 
 #### log
 
-Specifies whether Savon should log requests or not.
+Specifies whether Savon should log requests or not. Silences HTTPI is well.
 
 ``` ruby
 Savon.client(log: false)
