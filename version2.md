@@ -324,11 +324,46 @@ You can have it your very own way.
 response.body["USER_RESPONSE"]["ID"]
 ```
 
-**logger:** Savon logs to `$stdout` using Ruby's default Logger. Can be replaced by any object
-that responds to `#log`.
+**logger:** Savon logs to `$stdout` using Ruby's default Logger. You can change the logger to any
+any compatible Logger.
 
 ``` ruby
 Savon.client(logger: Rails.logger)
+```
+
+**log_level:** Can be used to limit the amount of log messages by increasing the severity.
+Translates the Logger's integer values to Symbols for developer happiness.
+
+``` ruby
+Savon.client(log_level: :info)  # or one of [:debug, :warn, :error, :fatal]
+```
+
+**log:** Specifies whether Savon should log requests or not.
+
+``` ruby
+Savon.client(log: false)
+```
+
+**filters:** Sensitive information should probably be removed from logs. If you don't have a central
+way of filtering your logs, you can tell Savon about the message parameters to filter for you.
+
+``` ruby
+Savon.client(filters: [:password])
+```
+
+This filters the password in both the request and response.
+
+``` xml
+<env:Envelope
+    xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'
+    xmlns:tns='http://v1_0.ws.auth.order.example.com/'>
+  <env:Body>
+    <tns:authenticate>
+      <username>luke</username>
+      <password>***FILTERED***</password>
+    </tns:authenticate>
+  </env:Body>
+</env:Envelope>
 ```
 
 **pretty_print_xml:** Pretty print the request and response XML in your logs for debugging purposes.
@@ -849,6 +884,9 @@ something missing.
 
 **Savon.config** was removed to better support concurrent usage and allow to use Savon in multiple different
 configurations in a single project.
+
+**Logger** was replaced with Ruby's standard Logger. The custom Logger was removed for simplicity. You can
+still set the log severity on the logger and add any global `:filters` or active `:pretty_print_xml`.
 
 **Hooks** are no longer supported. The implementation was way too complex and still didn't properly solve the
 problem of serving as a mock-helper for the [Savon::Spec](http://rubygems.org/gems/savon_spec) gem. If you used
