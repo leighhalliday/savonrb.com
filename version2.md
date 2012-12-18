@@ -327,7 +327,9 @@ Savon.client(basic_auth: ["luke", "secret"])
 And HTTP digest authentication.
 
 ``` ruby
-Savon.client(digest_auth: ["lea", "top-secret"])
+Savon.client do
+  digest_auth("lea", "top-secret")
+end
 ```
 
 #### wsse_auth
@@ -336,7 +338,10 @@ As well as WSSE basic/digest auth.
 
 ``` ruby
 Savon.client(wsse_auth: ["lea", "top-secret"])
-Savon.client(wsse_auth: ["lea", "top-secret", :digest])
+
+Savon.client do
+  wsse_auth("lea", "top-secret", :digest)
+end
 ```
 
 #### wsse_timestamp
