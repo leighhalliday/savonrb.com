@@ -885,7 +885,7 @@ something missing.
 configurations in a single project.
 
 **Logger** was replaced with Ruby's standard Logger. The custom Logger was removed for simplicity. You can
-still set the log severity on the logger and add any global `:filters` or active `:pretty_print_xml`.
+still set the global `:log_level` and `:filters` options or active `:pretty_print_xml`.
 
 **Hooks** are no longer supported. The implementation was way too complex and still didn't properly solve the
 problem of serving as a mock-helper for the [Savon::Spec](http://rubygems.org/gems/savon_spec) gem. If you used
