@@ -3,7 +3,9 @@ title: CHANGELOG
 layout: default
 ---
 
-## UPCOMING
+## 2.0.0 (2012-12-18)
+
+* Read about all the changes in the [updated documentation](http://savonrb.com/version2.html).
 
 * Fix: [#322](https://github.com/savonrb/savon/issues/322) use the builder's state instead of the
   block's return value to set the soap body/xml values.
