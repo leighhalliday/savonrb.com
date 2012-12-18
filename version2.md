@@ -108,16 +108,20 @@ Although they are called "global options", they really are local to a client ins
 based on a global `Savon.configure` method to store the configuration. While this was a popular concept
 back then, adapted by tons of libraries, its problem is global state. I tried to fix that problem.
 
-**wsdl:** Savon accepts either a local or remote WSDL document which it uses to extract information like
-the SOAP endpoint and target namespace of the service.
+#### wsdl
+
+Savon accepts either a local or remote WSDL document which it uses to extract information like the SOAP
+endpoint and target namespace of the service.
 
 ``` ruby
 Savon.client(wsdl: "http://example.com?wsdl")
 Savon.client(wsdl: "/Users/me/project/service.wsdl")
 ```
 
-**endpoint and namespace:** In case your service doesn't offer a WSDL, you need to tell Savon about the
-SOAP endpoint and target namespace of the service.
+#### endpoint and namespace
+
+In case your service doesn't offer a WSDL, you need to tell Savon about the SOAP endpoint and target
+namespace of the service.
 
 ``` ruby
 Savon.client(endpoint: "http://example.com", namespace: "http://v1.example.com")
@@ -147,135 +151,48 @@ of a WSDL, as the `location` attribute of a `soap:address` node.
 
 You can also use these options to overwrite these values in a WDSL document in case you need to.
 
-**encoding:** Savon defaults to UTF-8.
+#### raise_errors
 
-``` ruby
-Savon.client(encoding: "UTF-16")
-```
-
-Changing the default affects both the Content-Type header:
-
-``` ruby
-{ "Content-Type" => "text/xml;charset=UTF-16" }
-```
-
-and the XML instruction:
-
-``` xml
-<?xml version="1.0" encoding="UTF-16"?>
-```
-
-**soap_version:** Defaults to SOAP 1.1. Can be set to SOAP 1.2 to use a different SOAP endpoint.
-
-``` ruby
-Savon.client(soap_version: 2)
-```
-
-**env_namespace:** Savon defaults to use `:env` as the namespace identifier for the SOAP envelope.
-If that doesn't work  for you, I would like to know why. So please open an issue and make sure to
-add your WSDL for debugging.
-
-``` ruby
-Savon.client(env_namespace: :soapenv)
-```
-
-This is how the request's `envelope` looks like after changing the namespace identifier:
-
-``` xml
-<soapenv:Envelope
-  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-```
-
-**namespace_identifier:** Should be extracted from the WSDL. If it doesn't have a WSDL, Savon
-falls back to `:wsdl`. No idea why anyone would need to use this option.
-
-``` ruby
-Savon.client(namespace_identifier: :v1)
-```
-
-Notice the `v1:authenticate` message tag in the generated request:
-
-``` xml
-<env:Envelope
-    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:v1="http://v1.example.com/">
-  <env:Body>
-    <v1:authenticate></v1:authenticate>
-  </env:Body>
-</env:Envelope>
-```
-
-**proxy:** You can specify a proxy server to use.
-
-``` ruby
-Savon.client(proxy: "http://example.org")
-```
-
-**headers:** Additional HTTP headers for the request.
-
-``` ruby
-Savon.client(headers: { "Authentication" => "secret" })
-```
-
-**timeouts:** Both open and read timeout can be set (in seconds).
-
-``` ruby
-Savon.client(open_timeout: 5, read_timeout: 5)
-```
-
-**soap_header:** If you need to add custom XML to the SOAP header, you can use this option.
-This might be useful for setting a global authentication token or any other kind of metadata.
-
-``` ruby
-Savon.client(soap_header: { "Token" => "secret" })
-```
-
-This is the header created for the options:
-
-``` xml
-<env:Envelope
-    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:v1="http://v1.example.com/">
-  <env:Header>
-    <Token>secret</Token>
-  </env:Header>
-</env:Envelope>
-```
-
-**element_form_default:** Savon should extract whether to qualify elements from the WSDL.
-If there is no WSDL, Savon defaults to `:unqualified`.
-
-If you specified a WSDL but still need to use this option, please open an issue and make sure to
-add your WSDL for debugging. Savon currently does not support WSDL imports, so in case your service
-imports its type definitions from another file, the `element_form_default` value might be wrong.
-
-``` ruby
-Savon.client(element_form_default: :qualified)
-```
-
-**raise_errors:** By default, Savon raises SOAP fault and HTTP errors. You can disable both errors
-and query the response instead.
+By default, Savon raises SOAP fault and HTTP errors. You can disable both errors and query the response instead.
 
 ``` ruby
 Savon.client(raise_errors: false)
 ```
 
-**strip_namespaces:** Savon configures [Nori](https://github.com/savonrb/nori) to strip any namespace
-identifiers from the response. If that causes problems for you, you can disable this behavior.
+
+### Globals: HTTP
+
+#### proxy
+
+You can specify a proxy server to use.
 
 ``` ruby
-Savon.client(strip_namespaces: false)
+Savon.client(proxy: "http://example.org")
 ```
 
-Here's how the response Hash would look like if namespaces were not stripped from the response:
+#### headers
+
+Additional HTTP headers for the request.
 
 ``` ruby
-response.hash["soap:envelope"]["soap:body"]["ns2:authenticate_response"]
+Savon.client(headers: { "Authentication" => "secret" })
 ```
 
-**convert_request_keys_to:** Savon tells [Gyoku](https://github.com/savonrb/gyoku) to convert SOAP
-message Hash key Symbols to lowerCamelcase tags. You can change this to CamelCase, UPCASE or completely
-disable any conversion.
+#### timeouts
+
+Both open and read timeout can be set (in seconds).
+
+``` ruby
+Savon.client(open_timeout: 5, read_timeout: 5)
+```
+
+
+### Globals: Request
+
+#### convert_request_keys_to
+
+Savon tells [Gyoku](https://github.com/savonrb/gyoku) to convert SOAP message Hash key Symbols to lowerCamelcase tags.
+You can change this to CamelCase, UPCASE or completely disable any conversion.
 
 ``` ruby
 client = Savon.client do
@@ -301,9 +218,161 @@ This example converts all keys in the request Hash to CamelCase tags.
 </env:Envelope>
 ```
 
-**convert_response_tags_to:** Savon tells [Nori](https://github.com/savonrb/nori) to convert any
-XML tag from the response to a snakecase Symbol.
+#### soap_header
 
+If you need to add custom XML to the SOAP header, you can use this option. This might be useful for setting a global
+authentication token or any other kind of metadata.
+
+``` ruby
+Savon.client(soap_header: { "Token" => "secret" })
+```
+
+This is the header created for the options:
+
+``` xml
+<env:Envelope
+    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:v1="http://v1.example.com/">
+  <env:Header>
+    <Token>secret</Token>
+  </env:Header>
+</env:Envelope>
+```
+
+#### element_form_default
+
+Savon should extract whether to qualify elements from the WSDL. If there is no WSDL, Savon defaults to `:unqualified`.
+
+If you specified a WSDL but still need to use this option, please open an issue and make sure to
+add your WSDL for debugging. Savon currently does not support WSDL imports, so in case your service
+imports its type definitions from another file, the `element_form_default` value might be wrong.
+
+``` ruby
+Savon.client(element_form_default: :qualified)
+```
+
+#### env_namespace
+
+Savon defaults to use `:env` as the namespace identifier for the SOAP envelope. If that doesn't work  for you, I would
+like to know why. So please open an issue and make sure to add your WSDL for debugging.
+
+``` ruby
+Savon.client(env_namespace: :soapenv)
+```
+
+This is how the request's `envelope` looks like after changing the namespace identifier:
+
+``` xml
+<soapenv:Envelope
+  xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+```
+
+#### namespace_identifier
+
+Should be extracted from the WSDL. If it doesn't have a WSDL, Savon falls back to `:wsdl`. No idea why anyone
+would need to use this option.
+
+``` ruby
+Savon.client(namespace_identifier: :v1)
+```
+
+Notice the `v1:authenticate` message tag in the generated request:
+
+``` xml
+<env:Envelope
+    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:v1="http://v1.example.com/">
+  <env:Body>
+    <v1:authenticate></v1:authenticate>
+  </env:Body>
+</env:Envelope>
+```
+
+#### encoding
+
+Savon defaults to UTF-8.
+
+``` ruby
+Savon.client(encoding: "UTF-16")
+```
+
+Changing the default affects both the Content-Type header:
+
+``` ruby
+{ "Content-Type" => "text/xml;charset=UTF-16" }
+```
+
+and the XML instruction:
+
+``` xml
+<?xml version="1.0" encoding="UTF-16"?>
+```
+
+#### soap_version
+
+Defaults to SOAP 1.1. Can be set to SOAP 1.2 to use a different SOAP endpoint.
+
+``` ruby
+Savon.client(soap_version: 2)
+```
+
+
+### Globals: Authentication
+
+#### basic_auth
+
+Savon supports HTTP basic authentication.
+
+``` ruby
+Savon.client(basic_auth: ["luke", "secret"])
+```
+
+#### wsse_auth
+
+And HTTP digest authentication.
+
+``` ruby
+Savon.client(digest_auth: ["lea", "top-secret"])
+```
+
+#### wsse_auth
+
+As well as WSSE basic/digest auth.
+
+``` ruby
+Savon.client(wsse_auth: ["lea", "top-secret"])
+Savon.client(wsse_auth: ["lea", "top-secret", :digest])
+```
+
+#### wsse_timestamp
+
+And activate WSSE timestamp auth.
+
+``` ruby
+Savon.client(wsse_timestamp: true)
+```
+
+
+### Globals: Response
+
+#### strip_namespaces
+
+Savon configures [Nori](https://github.com/savonrb/nori) to strip any namespace identifiers from the response.
+If that causes problems for you, you can disable this behavior.
+
+``` ruby
+Savon.client(strip_namespaces: false)
+```
+
+Here's how the response Hash would look like if namespaces were not stripped from the response:
+
+``` ruby
+response.hash["soap:envelope"]["soap:body"]["ns2:authenticate_response"]
+```
+
+#### convert_response_tags_to
+
+Savon tells [Nori](https://github.com/savonrb/nori) to convert any XML tag from the response to a snakecase Symbol.
 This is why accessing the response as a Hash looks natural:
 
 ``` ruby
@@ -324,27 +393,38 @@ You can have it your very own way.
 response.body["USER_RESPONSE"]["ID"]
 ```
 
-**logger:** Savon logs to `$stdout` using Ruby's default Logger. Can be changed to any compatible logger.
+
+### Globals: Logging
+
+#### logger
+
+Savon logs to `$stdout` using Ruby's default Logger. Can be changed to any compatible logger.
 
 ``` ruby
 Savon.client(logger: Rails.logger)
 ```
 
-**log_level:** Can be used to limit the amount of log messages by increasing the severity.
+#### log_level
+
+Can be used to limit the amount of log messages by increasing the severity.
 Translates the Logger's integer values to Symbols for developer happiness.
 
 ``` ruby
 Savon.client(log_level: :info)  # or one of [:debug, :warn, :error, :fatal]
 ```
 
-**log:** Specifies whether Savon should log requests or not.
+#### log
+
+Specifies whether Savon should log requests or not.
 
 ``` ruby
 Savon.client(log: false)
 ```
 
-**filters:** Sensitive information should probably be removed from logs. If you don't have a central
-way of filtering your logs, you can tell Savon about the message parameters to filter for you.
+#### filters
+
+Sensitive information should probably be removed from logs. If you don't have a central way of filtering your logs,
+you can tell Savon about the message parameters to filter for you.
 
 ``` ruby
 Savon.client(filters: [:password])
@@ -365,35 +445,12 @@ This filters the password in both the request and response.
 </env:Envelope>
 ```
 
-**pretty_print_xml:** Pretty print the request and response XML in your logs for debugging purposes.
+#### pretty_print_xml
+
+Pretty print the request and response XML in your logs for debugging purposes.
 
 ``` ruby
 Savon.client(pretty_print_xml: true)
-```
-
-**basic_auth:** Savon supports HTTP basic authentication.
-
-``` ruby
-Savon.client(basic_auth: ["luke", "secret"])
-```
-
-**wsse_auth:** And HTTP digest authentication.
-
-``` ruby
-Savon.client(digest_auth: ["lea", "top-secret"])
-```
-
-**wsse_auth:** As well as WSSE basic/digest auth.
-
-``` ruby
-Savon.client(wsse_auth: ["lea", "top-secret"])
-Savon.client(wsse_auth: ["lea", "top-secret", :digest])
-```
-
-**wsse_timestamp:** And activate WSSE timestamp auth.
-
-``` ruby
-Savon.client(wsse_timestamp: true)
 ```
 
 
@@ -426,9 +483,25 @@ Locals
 
 Local options are passed to the client's `#call` method and are specific to a single request.
 
-**message:** You probably want to add some arguments to your request. For simple XML which can
-easily be represented as a Hash, you can pass the SOAP message as a Hash. Savon uses [Gyoku](https://github.com/savonrb/gyoku)
-to translate the Hash into XML.
+### Locals: HTTP
+
+#### soap_action
+
+You might need to set this if you don't have a WSDL. Otherwise, Savon should set the proper SOAPAction HTTP header for you.
+If it doesn't, please open an issue and add the WSDL of your service.
+
+``` ruby
+client.call(:authenticate, soap_action: "urn:Authenticate")
+```
+
+
+### Locals: Request
+
+#### message
+
+You probably want to add some arguments to your request. For simple XML which can easily be represented as a Hash,
+you can pass the SOAP message as a Hash. Savon uses [Gyoku](https://github.com/savonrb/gyoku) to translate the Hash
+into XML.
 
 ``` ruby
 client.call(:authenticate, message: { username: 'luke', password: 'secret' })
@@ -457,8 +530,9 @@ end
 client.call(:authenticate, message: ServiceRequest.new)
 ```
 
-**message_tag:** You can change the name of the SOAP message tag. If you need to use this option,
-please open an issue let me know why.
+#### message_tag
+
+You can change the name of the SOAP message tag. If you need to use this option, please open an issue let me know why.
 
 ``` ruby
 client.call(:authenticate, message_tag: :authenticationRequest)
@@ -477,29 +551,30 @@ operation name. Here's how the option changes the request.
 </env:Envelope>
 ```
 
-**soap_action:** You might need to set this if you don't have a WSDL. Otherwise, Savon should set the proper
-SOAPAction HTTP header for you. If it doesn't, please open an issue and add the WSDL of your service.
+#### xml
 
-``` ruby
-client.call(:authenticate, soap_action: "urn:Authenticate")
-```
-
-**xml:** If you need to, you can even shortcut Savon's Builder and send your very own XML.
+If you need to, you can even shortcut Savon's Builder and send your very own XML.
 
 ``` ruby
 client.call(:authenticate, xml: "<envelope><body></body></envelope>")
 ```
 
-**advanced_typecasting:** Savon by default tells [Nori](https://github.com/savonrb/nori) to use its
-"advanced typecasting" to convert XML values like `"true"` to `TrueClass`, dates to date objects, etc.
+
+### Locals: Response
+
+#### advanced_typecasting
+
+Savon by default tells [Nori](https://github.com/savonrb/nori) to use its "advanced typecasting" to convert XML values like
+`"true"` to `TrueClass`, dates to date objects, etc.
 
 ``` ruby
 client.call(:authenticate, advanced_typecasting: false)
 ```
 
-**response_parser:** Savon defaults to [Nori's](https://github.com/savonrb/nori) Nokogiri parser.
-Nori ships with a REXML parser as an alternative. If you need to switch to REXML, please open an issue
-and describe the problem you have with the Nokogiri parser.
+#### response_parser
+
+Savon defaults to [Nori's](https://github.com/savonrb/nori) Nokogiri parser. Nori ships with a REXML parser as an alternative.
+If you need to switch to REXML, please open an issue and describe the problem you have with the Nokogiri parser.
 
 ``` ruby
 client.call(:authenticate, response_parser: :rexml)
@@ -509,11 +584,15 @@ client.call(:authenticate, response_parser: :rexml)
 Errors
 ------
 
-**Savon::Error** is the base class for all other Savon errors. This allows you to either rescue a specific
-error like `Savon::SOAPFault` or rescue `Savon::Error` to catch them all.
+#### Savon::Error
 
-**Savon::SOAPFault** is raised when the server returns a SOAP fault error. The error object contains the
-[HTTPI](https://github.com/savonrb/httpi) response for you to further investigate what went wrong.
+The base class for all other Savon errors. This allows you to either rescue a specific error like `Savon::SOAPFault`
+or rescue `Savon::Error` to catch them all.
+
+#### Savon::SOAPFault
+
+Raised when the server returns a SOAP fault error. The error object contains the [HTTPI](https://github.com/savonrb/httpi)
+response for you to further investigate what went wrong.
 
 ``` ruby
 def authenticate(credentials)
@@ -536,8 +615,10 @@ rescue Savon::SOAPFault => error
 end
 ```
 
-**Savon::HTTPError** is raised when Savon considers the HTTP response to be not successful. You can rescue
-this error and access the [HTTPI](https://github.com/savonrb/httpi) response for investigation.
+#### Savon::HTTPError
+
+Raised when Savon considers the HTTP response to be not successful. You can rescue this error and access the
+[HTTPI](https://github.com/savonrb/httpi) response for investigation.
 
 ``` ruby
 def authenticate(credentials)
@@ -550,9 +631,10 @@ end
 
 The example rescues from HTTP errors, logs the HTTP response code and re-raises the error.
 
-**Savon::InvalidResponseError** is raised when you try to access the response header or body of a response
-that is not a SOAP response as a Hash. If the response is not an XML document with an envelope, a header
-and a body node, it's not accessible as a Hash.
+#### Savon::InvalidResponseError
+
+Raised when you try to access the response header or body of a response that is not a SOAP response as a Hash.
+If the response is not an XML document with an envelope, a header and a body node, it's not accessible as a Hash.
 
 ``` ruby
 def get_id_from_response(response)
@@ -569,19 +651,25 @@ Response
 
 The response provides a few convenience methods for you to work with the XML in any way you want.
 
-**#header** translates the response and returns the SOAP header as a Hash.
+#### #header
+
+Translates the response and returns the SOAP header as a Hash.
 
 ``` ruby
 response.header  # => { token: "secret" }
 ```
 
-**#body** translates the response and returns the SOAP body as a Hash.
+#### #body
+
+Translates the response and returns the SOAP body as a Hash.
 
 ``` ruby
 response.body  # => { response: { success: true, name: "luke" } }
 ```
 
-**#hash** translates the response and returns it as a Hash.
+#### #hash
+
+Translates the response and returns it as a Hash.
 
 ``` ruby
 response.hash  # => { envelope: { header: { ... }, body: { ... } } }
@@ -612,25 +700,33 @@ end
 These options map to Nori's options and you can find more information about how they work in
 the [README](https://github.com/savonrb/nori/blob/master/README.md).
 
-**#to_xml** returns the raw SOAP response.
+#### #to_xml
+
+Returns the raw SOAP response.
 
 ``` ruby
 response.to_xml  # => "<response><success>true</success><name>luke</name></response>"
 ```
 
-**#doc** returns the SOAP response as a [Nokogiri](http://nokogiri.org/) document.
+#### #doc
+
+Returns the SOAP response as a [Nokogiri](http://nokogiri.org/) document.
 
 ``` ruby
 response.doc  # => #<Nokogiri::XML::Document:0x1017b4268 ...
 ```
 
-**#xpath** delegates to [Nokogiri's xpath method](http://nokogiri.org/Nokogiri/XML/Node.html#method-i-xpath).
+#### #xpath
+
+Delegates to [Nokogiri's xpath method](http://nokogiri.org/Nokogiri/XML/Node.html#method-i-xpath).
 
 ``` ruby
 response.xpath("//v1:authenticateResponse/return/success").first.inner_text.should == "true"
 ```
 
-**#http** returns the [HTTPI](https://github.com/savonrb/httpi) response.
+#### #http
+
+Returns the [HTTPI](https://github.com/savonrb/httpi) response.
 
 ``` ruby
 response.http  # => #<HTTPI::Response:0x1017b4268 ...
@@ -650,7 +746,9 @@ Model
 `Savon::Model` can be used to model a class interface on top of a SOAP service. Extending any class
 with this module will give you three class methods to configure the service model.
 
-**.client** sets up the client instance used by the class.
+#### .client
+
+Sets up the client instance used by the class.
 
 Needs to be called before any other model class method to set up the Savon client with a `:wsdl` or
 the `:endpoint` and `:namespace` of the service.
@@ -665,7 +763,9 @@ class User
 end
 ```
 
-**.global** sets a global option to a given value.
+#### .global
+
+Sets a global option to a given value.
 
 If there are multiple arguments for an option (like an auth method requiering username and password),
 you can pass those as separate arguments to the `.global` method instead of passing an Array.
@@ -681,7 +781,9 @@ class User
 end
 ```
 
-**.operations** defines class and instance methods for he given SOAP operations.
+#### .operations
+
+Defines class and instance methods for he given SOAP operations.
 
 Use this method to specify which SOAP operations should be available through your service model.
 
@@ -831,14 +933,18 @@ end
 As you can see in this example, you have to explicitly set Savon in and out of mock mode before and after
 your specs. The example uses RSpec's `before` and `after` hooks for that.
 
-**Expectations** are specified through the `#expects` method on the `savon` mock interface. It takes the
+#### Expectations
+
+Are specified through the `#expects` method on the `savon` mock interface. It takes the
 name of a SOAP operation that is expected to be called.
 
 ``` ruby
 savon.expects(:authenticate)
 ```
 
-**Options** can be tested through the `#with` method. This currently only supports checking the SOAP message,
+#### Options
+
+Can be tested through the `#with` method. This currently only supports checking the SOAP message,
 but can easily be changed to support any global and or local option along with the generated request XML.
 This is possible because Savon mocks the request as late as possible to ensure everything works as expected
 in your integration tests.
@@ -851,7 +957,9 @@ message = { username: "luke", password: "secret" }
 savon.expects(:authenticate).with(message: message)
 ```
 
-**Fixtures** should match a recorded SOAP response from the server for the request you're testing.
+#### Fixtures
+
+Should match a recorded SOAP response from the server for the request you're testing.
 The `#returns` method accepts a few options which are used to create an HTTPI response.
 
 ``` ruby
@@ -881,34 +989,58 @@ Changes
 A probably incomplete list of changes to help you migrate your application. Let me know if you think there's
 something missing.
 
-**Savon.config** was removed to better support concurrent usage and allow to use Savon in multiple different
+#### Savon.config
+
+Was removed to better support concurrent usage and allow to use Savon in multiple different
 configurations in a single project.
 
-**Logger** was replaced with Ruby's standard Logger. The custom Logger was removed for simplicity. You can
+#### Logger
+
+Was replaced with Ruby's standard Logger. The custom Logger was removed for simplicity. You can
 still set the global `:log_level` and `:filters` options or active `:pretty_print_xml`.
 
-**Hooks** are no longer supported. The implementation was way too complex and still didn't properly solve the
+#### Hooks
+
+Are no longer supported. The implementation was way too complex and still didn't properly solve the
 problem of serving as a mock-helper for the [Savon::Spec](http://rubygems.org/gems/savon_spec) gem. If you used
 them for any other purpose, please open an issue and we may find a better solution.
 
-**Nori** was updated to remove global state. All Nori 2.0 options are now encapsulated and can be configured
+#### Nori
+
+Was updated to remove global state. All Nori 2.0 options are now encapsulated and can be configured
 through Savon's options. This allows to use Nori in multiple different configurations in a project that uses Savon.
 
-**Gyoku** was also updated to remove global state. All Gyoku 1.0 options are encapsulated and can be configured
+#### Gyoku
+
+Was also updated to remove global state. All Gyoku 1.0 options are encapsulated and can be configured
 through Savon. Instead of `Gyoku.convert_symbols_to`, please use the global `:convert_request_keys_to` option.
 
-**HTTPI** was updated to version 2 which comes with [support for EM-HTTPRequest](https://github.com/savonrb/httpi/pull/40).
+#### HTTPI
 
-**NTLM authentication** support will probably be added in the next version. This really needs some good specs
+Was updated to version 2 which comes with [support for EM-HTTPRequest](https://github.com/savonrb/httpi/pull/40).
+
+#### NTLM authentication
+
+Support will probably be added in the next version. This really needs some good specs
 and integration tests first.
 
-**WSSE signature** was not covered with specs and has been removed. If anyone uses this and wants to provide a
+#### WSSE signature
+
+Was not covered with specs and has been removed. If anyone uses this and wants to provide a
 properly tested implementation, please talk to me.
 
-**response[]** the Hash-like read-access to the response was removed.
+#### response[]
 
-**Savon::SOAP::Fault** was renamed to `Savon::SOAPFault`.
+The Hash-like read-access to the response was removed.
 
-**Savon::HTTP::Error** was renamed to `Savon::HTTPError`.
+#### Savon::SOAP::Fault
 
-**Savon::SOAP::InvalidResponseError** was renamed to `Savon::InvalidResponseError`.
+Was renamed to `Savon::SOAPFault`.
+
+#### Savon::HTTP::Error
+
+Was renamed to `Savon::HTTPError`.
+
+#### Savon::SOAP::InvalidResponseError
+
+Was renamed to `Savon::InvalidResponseError`.
