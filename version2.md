@@ -6,18 +6,13 @@ layout: version2
 Version 2
 ---------
 
-As I tried to explain in [this blog post](/2012/06/30/milestones.html), Savon's public interface needs to
-change in order to allow future refactorings and new features. I dropped the initial plan to add the new
-interface to an upcoming 1.x release. Instead, I pushed the [version2 branch](https://github.com/savonrb/savon/tree/version2)
-up to Github, so everyone can follow the progress. I'm also updating [issue 332](https://github.com/savonrb/savon/issues/332)
-when there are new changes to be tried out.
+Savon is available through [Rubygems](http://rubygems.org/gems/savon) and can be installed via:
 
-Savon 2.0 is almost feature-complete and I would really appreciate your feedback!
-To get started, add the following line to your Gemfile:
+{% highlight bash %}
+$ gem install savon
+{% endhighlight %}
 
-``` ruby
-gem "savon", github: "savonrb/savon", branch: "version2"
-```
+The project is [hosted on GitHub](http://github.com/savonrb/savon), it has [source code documentation](http://rubydoc.info/gems/savon/frames), it uses [continuous integration](http://travis-ci.org/#!/savonrb/savon), support can be found in the [mailing list](https://groups.google.com/forum/#!forum/savonrb) and thanks to Ryan Bates, there's even a [Railscast](http://railscasts.com/episodes/290-soap-with-savon).
 
 
 Client
