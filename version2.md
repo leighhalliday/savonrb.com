@@ -820,6 +820,13 @@ In the previous User class example, we're overwriting the `.find_user` operation
 with a SOAP message Hash. You can do that both on the class and on the instance.
 
 
+Examples
+--------
+
+Savon comes with a few [commented and easy to read integration (example) specs](https://github.com/savonrb/savon/tree/master/spec/integration)
+for you to play with.
+
+
 Observers
 ---------
 
