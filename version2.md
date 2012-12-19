@@ -185,6 +185,30 @@ Savon.client(open_timeout: 5, read_timeout: 5)
 ```
 
 
+### Globals: SSL
+
+It seems like there are almost no options for configuring SSL in version 2.0.
+I'm adding those to master as soon as I can. If there's anything missing, please open an issue.
+
+The following options are already on master and will be in the next release:
+
+#### ssl_verify_mode
+
+You can disable SSL verification if you know what you're doing.
+
+``` ruby
+Savon.client(ssl_verify_mode: :none)
+```
+
+#### ssl_version
+
+Change the SSL version to use.
+
+``` ruby
+Savon.client(ssl_version: :SSLv3)  # or one of [:TLSv1, :SSLv2]
+```
+
+
 ### Globals: Request
 
 #### convert_request_keys_to
