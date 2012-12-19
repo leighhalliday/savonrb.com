@@ -113,6 +113,9 @@ Savon.client(wsdl: "http://example.com?wsdl")
 Savon.client(wsdl: "/Users/me/project/service.wsdl")
 ```
 
+For learning how to read a WSDL document, read the [Beginner's Guide](http://predic8.com/wsdl-reading.htm) by Thomas Bayer.
+It's a good idea to know what you're working with and this might really help you debug certain problems.
+
 #### endpoint and namespace
 
 In case your service doesn't offer a WSDL, you need to tell Savon about the SOAP endpoint and target
