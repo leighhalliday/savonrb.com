@@ -188,7 +188,8 @@ Savon.client(open_timeout: 5, read_timeout: 5)
 ### Globals: SSL
 
 It seems like there are almost no options for configuring SSL in version 2.0.
-I'm adding those to master as soon as I can. If there's anything missing, please open an issue.
+I'm adding those to master as soon as I can. If there's anything missing,
+please [let me know](https://github.com/savonrb/savon/issues/344).
 
 The following options are already on master and will be in the next release:
 
