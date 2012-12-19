@@ -1,6 +1,6 @@
 ---
 title: Examples
-layout: default
+layout: version1
 ---
 
 Bank code lookup
