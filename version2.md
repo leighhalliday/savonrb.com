@@ -187,11 +187,8 @@ Savon.client(open_timeout: 5, read_timeout: 5)
 
 ### Globals: SSL
 
-It seems like there are almost no options for configuring SSL in version 2.0.
-I'm adding those to master as soon as I can. If there's anything missing,
-please [let me know](https://github.com/savonrb/savon/issues/344).
-
-The following options are already on master and will be in the next release:
+Unfortunately, SSL options were [missing from the initial 2.0 release](https://github.com/savonrb/savon/issues/344).
+Please update to version 2.0.2 to use the following options.
 
 #### ssl_verify_mode
 
@@ -207,6 +204,30 @@ Change the SSL version to use.
 
 ``` ruby
 Savon.client(ssl_version: :SSLv3)  # or one of [:TLSv1, :SSLv2]
+```
+
+#### ssl_cert_file
+
+Sets the SSL cert file to use.
+
+``` ruby
+Savon.client(ssl_cert_file: "lib/client_cert.pem")
+```
+
+#### ssl_cert_key_file
+
+Sets the SSL cert key file to use.
+
+``` ruby
+Savon.client(ssl_cert_key_file: "lib/client_key.pem")
+```
+
+#### ssl_ca_cert_file
+
+Sets the SSL ca cert file to use.
+
+``` ruby
+Savon.client(ssl_ca_cert_file: "lib/ca_cert.pem")
 ```
 
 
