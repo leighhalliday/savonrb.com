@@ -39,7 +39,7 @@ end
 ```
 
 The downside to this interface is, that it doesn't allow you to use instance variables inside the block.
-You can only use local variables or call methods on your class. If you don't mind to type a few more
+You can only use local variables or call methods on your class. If you don't mind typing a few more
 characters, you could accept an argument in your block and Savon will simply yield the global options
 to it. That way, you can use as many instance variables as you like.
 
@@ -853,7 +853,7 @@ class User
 end
 ```
 
-For every SOAP operation, it creates both class and instance methods. All thesemethods call the
+For every SOAP operation, it creates both class and instance methods. All these methods call the
 service with an optional Hash of local options and return a response.
 
 ``` ruby
@@ -1027,7 +1027,7 @@ savon.expects(:authenticate).with(message: message).returns(fixture)
 
 When passed a String, like in the example above, the `#returns` method defaults to a response code of 200
 with no headers and uses the String as the response body. You can also pass a Hash to specify all values
-yourself. This cab be useful if you're testing SOAP fault responses which have a response code of 500.
+yourself. This can be useful if you're testing SOAP fault responses which have a response code of 500.
 
 ``` ruby
 soap_fault = File.read("spec/fixtures/authentication_service/soap_fault.xml")
