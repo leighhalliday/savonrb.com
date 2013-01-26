@@ -162,7 +162,7 @@ Savon.client(raise_errors: false)
 
 #### proxy
 
-You can specify a proxy server to use.
+You can specify a proxy server to use. This will be used for retrieving remote WSDL documents and actual SOAP requests.
 
 ``` ruby
 Savon.client(proxy: "http://example.org")
@@ -178,7 +178,8 @@ Savon.client(headers: { "Authentication" => "secret" })
 
 #### timeouts
 
-Both open and read timeout can be set (in seconds).
+Both open and read timeout can be set (in seconds). This will be used for retrieving remote WSDL documents and actually
+SOAP requests.
 
 ``` ruby
 Savon.client(open_timeout: 5, read_timeout: 5)
@@ -188,7 +189,8 @@ Savon.client(open_timeout: 5, read_timeout: 5)
 ### Globals: SSL
 
 Unfortunately, SSL options were [missing from the initial 2.0 release](https://github.com/savonrb/savon/issues/344).
-Please update to version 2.0.2 to use the following options.
+Please update to at least version 2.0.2 to use the following options. These will be used for retrieving remote WSDL
+documents and actual SOAP requests.
 
 #### ssl_verify_mode
 
@@ -228,6 +230,14 @@ Sets the SSL ca cert file to use.
 
 ``` ruby
 Savon.client(ssl_ca_cert_file: "lib/ca_cert.pem")
+```
+
+#### ssl_cert_key_password
+
+Sets the cert key password to decrypt an encrypted private key.
+
+``` ruby
+Savon.client(ssl_cert_key_password: "secret")
 ```
 
 
@@ -332,6 +342,32 @@ Notice the `v1:authenticate` message tag in the generated request:
 </env:Envelope>
 ```
 
+#### namespaces
+
+You can add additional namespaces to the SOAP envelope tag.
+
+``` ruby
+namespaces = {
+  "xmlns:v2" => "http://v2.example.com",
+}
+
+Savon.client(namespaces: namespaces)
+```
+
+This does what you would expect it to do. If you need to use this option, please open an issue and provide
+your WSDL for debugging.
+
+``` xml
+<env:Envelope
+    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:v1="http://v1.example.com/"
+    xmlns:v2="http://v2.example.com/">
+  <env:Body>
+    <v1:authenticate></v1:authenticate>
+  </env:Body>
+</env:Envelope>
+```
+
 #### encoding
 
 Savon defaults to UTF-8.
@@ -362,6 +398,8 @@ Savon.client(soap_version: 2)
 
 
 ### Globals: Authentication
+
+HTTP authentication will be used for retrieving remote WSDL documents and actual SOAP requests.
 
 #### basic_auth
 
@@ -543,6 +581,22 @@ If it doesn't, please open an issue and add the WSDL of your service.
 client.call(:authenticate, soap_action: "urn:Authenticate")
 ```
 
+#### cookies
+
+Savon 2.0 tried to automatically handle cookies by storing the cookies from the last response and using them for
+the next request. This is wrong and [it caused problems](https://github.com/savonrb/savon/issues/363). Savon 2.1
+does not set the "Cookie" header for you, but it makes it easy for you to handle cookies yourself.
+
+``` ruby
+response     = client.call(:authenticate, message: credentials)
+auth_cookies = response.http.cookies
+
+client.call(:find_user, message: { id: 3 }, cookies: auth_cookies)
+```
+
+This option accepts an Array of `HTTPI::Cookie` objects or any object that responds to `cookies`
+(like for example, an `HTTPI::Response`).
+
 
 ### Locals: Request
 
@@ -595,10 +649,35 @@ operation name. Here's how the option changes the request.
     xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:tns="http://v1.example.com/">
   <env:Body>
-    <tns:authenticationRequest></tns:authenticationRequest>
+    <tns:authenticationRequest>
+    </tns:authenticationRequest>
   </env:Body>
 </env:Envelope>
 ```
+
+#### attributes
+
+The attributes option accepts a Hash of XML attributes for the SOAP message tag.
+
+``` ruby
+client.call(:authenticate, :attributes => { "ID" => "ABC321" })
+```
+
+Here's what the request will look like.
+
+``` xml
+<env:Envelope
+    xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:tns="http://v1.example.com/">
+  <env:Body>
+    <tns:authenticationRequest ID="ABC321">
+    </tns:authenticationRequest>
+  </env:Body>
+</env:Envelope>
+```
+
+If you need to use this option, please open an issue and provide you WSDL for debugging.
+This should be handled automatically, but we need real world examples to do so.
 
 #### xml
 
