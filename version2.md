@@ -12,23 +12,23 @@ Savon is available through [Rubygems](http://rubygems.org/gems/savon) and can be
 $ gem install savon
 {% endhighlight %}
 
-The project is [hosted on GitHub](http://github.com/savonrb/savon), it has [source code documentation](http://rubydoc.info/gems/savon/frames), it uses [continuous integration](http://travis-ci.org/#!/savonrb/savon), support can be found in the [mailing list](https://groups.google.com/forum/#!forum/savonrb) and thanks to Ryan Bates, there's even a [Railscast](http://railscasts.com/episodes/290-soap-with-savon).
+The project is [hosted on GitHub](http://github.com/savonrb/savon), it has [source code documentation](http://rubydoc.info/gems/savon/frames), it uses [continuous integration](http://travis-ci.org/#!/savonrb/savon) and support can be found in the [mailing list](https://groups.google.com/forum/#!forum/savonrb).
 
 
 Client
 ------
 
-The new client should be a lot simpler to use than the old one, because everything in Savon 2.0 is based on
-a defined set of global and local options. To create a new client based on a WSDL document, you could set the
-global `:wsdl` option by passing a Hash to the `Savon.client` "factory method". The client's constructor
-accepts various [global options](#globals) which are specific to a service.
+The new client is supposed be a lot simpler to use, because everything in Savon 2.0 is based on a defined set
+of global and local options. To create a new client based on a WSDL document, you could set the global `:wsdl`
+option by passing a Hash to the `Savon.client` "factory method". The client's constructor accepts various
+[global options](#globals) which are specific to a service.
 
 ``` ruby
 client = Savon.client(wsdl: "http://example.com?wsdl")
 ```
 
 Along with the simple Hash-based interface, Savon also comes with an interface based on blocks. This should look
-familiar to you if you used version 1 before. If you're passing a block to the constructor, it is executed using the
+familiar to you if you used Savon 1.x before. If you're passing a block to the constructor, it is executed using the
 [instance_eval with delegation](http://www.dcmanges.com/blog/ruby-dsls-instance-eval-with-delegation) pattern.
 It's a smart, but ugly, but convenient little hack.
 
@@ -49,7 +49,8 @@ client = Savon.client do |globals|
 end
 ```
 
-In case your service doesn't have a WSDL, you need to tell Savon about its SOAP endpoint and target namespace.
+In case your service doesn't have a WSDL, you might need to provide Savon with various other options.
+For example, Savon needs to know about the SOAP endpoint and target namespace of your service.
 
 ``` ruby
 client = Savon.client do
