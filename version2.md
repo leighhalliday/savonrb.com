@@ -1,4 +1,4 @@
----
+ ---
 title: Version 2
 layout: version2
 ---
@@ -410,9 +410,9 @@ Savon supports HTTP basic authentication.
 Savon.client(basic_auth: ["luke", "secret"])
 ```
 
-#### wsse_auth
+#### digest_auth
 
-And HTTP digest authentication.
+And HTTP digest authentication. If you wish to use digest auth you must ensure that you have included the gem httpclient, or another one of the [HTTPI](https://github.com/savonrb/httpi) adapters that supports HTTP digest authentication.  Failing to do so will not produce errors, but if the HTTPI adapter ends up using net_http, digest authentication will not be performed.
 
 ``` ruby
 Savon.client do
