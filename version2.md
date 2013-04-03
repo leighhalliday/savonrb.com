@@ -1,4 +1,4 @@
- ---
+---
 title: Version 2
 layout: version2
 ---
